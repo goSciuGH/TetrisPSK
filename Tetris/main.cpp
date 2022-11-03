@@ -19,8 +19,9 @@ int main()
 
 	sf::Sprite spr_Matrix;
 	spr_Matrix.setTexture(ttr_Matrix);
-	int matrixPosX = windowWidth / 2 - 122;
-	int matrixPosY = windowHeight / 2 - 241;
+	sf::Vector2u matrixSize = ttr_Matrix.getSize();
+	int matrixPosX = windowWidth / 2 - matrixSize.x / 2;
+	int matrixPosY = windowHeight / 2 - matrixSize.y / 2;
 	spr_Matrix.setPosition(matrixPosX, matrixPosY);
 
 	while (window.isOpen())
