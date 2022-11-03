@@ -1,2 +1,2 @@
 # TetrisPSK
-Implementcja Tetrisa w C++ i bibliotece SFML na potrzeby projektu z Programowania w C 2
+Implementacja Tetrisa w C++ i bibliotece SFML na potrzeby projektu z Programowania w C 2
