@@ -1,3 +1,8 @@
 ﻿  main.cpp
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(25): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(12): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(13): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(29): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(31): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(32): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(33): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
   Tetris.vcxproj -> C:\Users\admin.DESKTOP-9R177AE\Documents\GitHub\TetrisPSK\Tetris\x64\Debug\Tetris.exe
