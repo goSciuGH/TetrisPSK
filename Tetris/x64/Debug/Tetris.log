@@ -1,8 +1,8 @@
 ﻿  main.cpp
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(12): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(13): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(29): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(31): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(32): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(33): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-  Tetris.vcxproj -> C:\Users\admin.DESKTOP-9R177AE\Documents\GitHub\TetrisPSK\Tetris\x64\Debug\Tetris.exe
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(17): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(18): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(97): error C2678: dwuargumentowy "/": nie znaleziono żadnego operatora, który przyjmuje lewostronny operand typu "sf::Vector2u" (lub nie istnieje akceptowalna konwersja)
+  c:\users\admin.desktop-9r177ae\downloads\sfml-2.5.1-windows-vc15-64-bit\sfml-2.5.1\include\sfml\system\time.hpp(364): note: może to być „sf::Time sf::operator /(sf::Time,float)” [znaleziono za pomocą wyszukiwania zależnego od argumentów]
+  c:\users\admin.desktop-9r177ae\downloads\sfml-2.5.1-windows-vc15-64-bit\sfml-2.5.1\include\sfml\system\time.hpp(376): note: lub       „sf::Time sf::operator /(sf::Time,sf::Int64)” [znaleziono za pomocą wyszukiwania zależnego od argumentów]
+  c:\users\admin.desktop-9r177ae\downloads\sfml-2.5.1-windows-vc15-64-bit\sfml-2.5.1\include\sfml\system\time.hpp(412): note: lub       „float sf::operator /(sf::Time,sf::Time)” [znaleziono za pomocą wyszukiwania zależnego od argumentów]
+  c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(97): note: podczas próby dopasowania listy argumentów "(sf::Vector2u, double)"
