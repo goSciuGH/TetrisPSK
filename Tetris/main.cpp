@@ -60,7 +60,7 @@ public:
 	}
 	
 	int colour;
-	int x, y;
+	int posX, posY;
 };
 
 class MinoAnchor : public Mino
@@ -71,12 +71,12 @@ public:
 
 	}
 
-	/*~MinoAnchor()
+	~MinoAnchor()
 	{
 		// stwórz nowy obiekt Mino w tablicy Matrix
 		// przeka¿ nowemu Mino swoj¹ pozycjê i kolor;
 		// zniszcz siebie
-	}*/
+	}
 	
 	int shape;
 	int rot; // 0 - pozycja startowa; 1 - obrót w prawo; 2 - dwa obroty; 3 - obrót w lewo
@@ -86,19 +86,21 @@ public:
 class Matrix : public sf::Sprite
 {
 public:
-	Matrix()
+	Matrix(Player* p)
 	{
+		this->parent = p;
+		
 		for (int i = 0; i < 10; i++)
 		{
 			for (int j = 0; j < 40; j++)
 			{
-				matrix[i][j] = NULL;
+				this->matrix[i][j] = NULL;
 			}
 		}
 	}
 
+	Player* parent;
 	Mino* matrix[10][40];
-	int x, y;
 };
 
 class Player
@@ -106,12 +108,16 @@ class Player
 public:
 	Player()
 	{
-		matrix = new Matrix();
+		matrix = new Matrix(this);
 	}
 
 	int id;
 	int piecesUsed = 0;
+
 	Matrix* matrix;
+	sf::Sprite hold[2];
+	sf::Sprite qBox;
+
 	MinoAnchor* activeAnchor;
 
 	int sideMoveTime = 0;
@@ -218,7 +224,7 @@ void addBag(struct pQueue* q)
 
 int main()
 {
-	std::cout << "xd\n";
+	//std::cout << "xd\n";
 
 	sf::Clock frameTimer;
 	int fpsCount;
@@ -234,20 +240,69 @@ int main()
 		// nyeh
 	}
 	ttr_Matrix.setSmooth(true);
+
 	sf::Texture ttr_Mino;
 	if (!ttr_Mino.loadFromFile("sprites/spr_mino.png"))
 	{
 		// nyeh
 	}
 	ttr_Mino.setSmooth(true);
+
+	sf::Texture ttr_HoldSolo;
+	if (!ttr_HoldSolo.loadFromFile("sprites/spr_holdSolo.png"))
+	{
+		// nyeh
+	}
+	ttr_HoldSolo.setSmooth(true);
 	
+	sf::Texture ttr_HoldTop;
+	if (!ttr_HoldTop.loadFromFile("sprites/spr_holdTop.png"))
+	{
+		// nyeh
+	}
+	ttr_HoldTop.setSmooth(true);
+
+	sf::Texture ttr_HoldBot;
+	if (!ttr_HoldBot.loadFromFile("sprites/spr_holdBot.png"))
+	{
+		// nyeh
+	}
+	ttr_HoldBot.setSmooth(true);
+
+	sf::Texture ttr_Queue5;
+	if (!ttr_Queue5.loadFromFile("sprites/spr_queue5.png"))
+	{
+		// nyeh
+	}
+	ttr_Queue5.setSmooth(true);
+
+	//
+
 	sf::View view(sf::Vector2f(FULLHD_W/2.0, FULLHD_H/2.0f), sf::Vector2f(FULLHD_W, FULLHD_H)); // center, size
 
-	Player* pOne;
-	pOne = new Player();
-	pOne->matrix->setTexture(ttr_Matrix);
-	pOne->matrix->setOrigin(sf::Vector2f((pOne->matrix->getTexture()->getSize().x) / 2.0, (pOne->matrix->getTexture()->getSize().y) / 2.0));
-	pOne->matrix->setPosition(sf::Vector2f(FULLHD_W / 2.0, FULLHD_H / 2.0 + 2.0));
+	//
+
+	Player* player[2];
+
+	player[0] = new Player();
+	player[0]->matrix->setTexture(ttr_Matrix);
+	player[0]->matrix->setOrigin(sf::Vector2f((player[0]->matrix->getTexture()->getSize().x) / 2.0, (player[0]->matrix->getTexture()->getSize().y) / 2.0));
+	//player[0]->matrix->setPosition(sf::Vector2f(FULLHD_W / 2.0, FULLHD_H / 2.0 + 2.0));
+	player[0]->matrix->setPosition(sf::Vector2f((FULLHD_W / (5.0 + (1.0 / 3.0))) + ((player[0]->matrix->getTexture()->getSize().x) / 2.0), FULLHD_H / 2.0 + 2.0));
+	player[0]->hold[0].setTexture(ttr_HoldSolo);
+	player[0]->hold[0].setOrigin(sf::Vector2f((player[0]->hold[0].getTexture()->getSize().x) / 2.0, (player[0]->hold[0].getTexture()->getSize().y) / 2.0));
+	player[0]->hold[0].setPosition(sf::Vector2f(player[0]->matrix->getPosition().x - ((player[0]->matrix->getTexture()->getSize().x) / 2.0) - ((player[0]->hold[0].getTexture()->getSize().x) / 2.0), player[0]->matrix->getPosition().y));
+	player[0]->qBox.setTexture(ttr_Queue5);
+	player[0]->qBox.setOrigin(sf::Vector2f((player[0]->qBox.getTexture()->getSize().x) / 2.0, (player[0]->qBox.getTexture()->getSize().y) / 2.0));
+	player[0]->qBox.setPosition(sf::Vector2f(player[0]->matrix->getPosition().x + ((player[0]->matrix->getTexture()->getSize().x) / 2.0) + ((player[0]->qBox.getTexture()->getSize().x) / 2.0), player[0]->matrix->getPosition().y));
+
+	/*
+	sf::Sprite holdTest;
+	holdTest.setTexture(ttr_HoldSolo);
+	holdTest.setOrigin(sf::Vector2f((holdTest.getTexture()->getSize().x) / 2.0, (holdTest.getTexture()->getSize().y) / 2.0));
+	holdTest.setPosition(sf::Vector2f(FULLHD_W / 2.0, FULLHD_H / 2.0));
+	*/
+	player[1] = NULL;
 
 	/*
 	sf::Sprite minoTest;
@@ -264,7 +319,7 @@ int main()
 	while (window.isOpen())
 	{
 		sf::Time elapsed1 = frameTimer.getElapsedTime();
-		std::cout << elapsed1.asMilliseconds() << std::endl;
+		//std::cout << elapsed1.asMilliseconds() << std::endl;
 		if (elapsed1.asMilliseconds() != 0)
 			fpsCount = 1000 / elapsed1.asMilliseconds();
 		else
@@ -284,7 +339,9 @@ int main()
 
 		window.clear();
 
-		window.draw(*pOne->matrix);
+		window.draw(*player[0]->matrix);
+		window.draw(player[0]->hold[0]);
+		window.draw(player[0]->qBox);
 
 		int randMino = rand() % 7;
 

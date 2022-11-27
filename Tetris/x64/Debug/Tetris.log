@@ -1,10 +1,35 @@
 ﻿  main.cpp
 c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(20): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
 c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(21): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(249): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(289): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(262): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(291): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(293): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(294): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(296): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(297): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(317): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
   Tetris.vcxproj -> C:\Users\admin.DESKTOP-9R177AE\Documents\GitHub\TetrisPSK\Tetris\x64\Debug\Tetris.exe
