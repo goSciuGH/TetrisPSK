@@ -1,35 +1,80 @@
 ﻿  main.cpp
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(20): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(21): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(289): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(44): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(45): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(241): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(291): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(243): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(293): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(518): warning C4244: "-=": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(572): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(294): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(573): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(296): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(577): warning C4305: "argument": obcięcie z "double" do "T"
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(297): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(581): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(317): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(616): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(617): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(618): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(619): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(703): warning C4305: "inicjowanie": obcięcie z "int" do "float"
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(705): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(795): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(796): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(799): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(800): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(818): warning C4244: "=": konwersja z "sf::Int64" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(701): warning C4101: "frameAvgH": lokalna zmienna, do której nie istnieje odwołanie
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetris\main.cpp(700): warning C4101: "frameHistory": lokalna zmienna, do której nie istnieje odwołanie
   Tetris.vcxproj -> C:\Users\admin.DESKTOP-9R177AE\Documents\GitHub\TetrisPSK\Tetris\x64\Debug\Tetris.exe
