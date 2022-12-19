@@ -5,6 +5,14 @@ Wa¿ne komentarze:
 	TODO - do zrobienia
 */
 
+/*
+	TODO ogólne
+		lokowanie tetrimin (~MinoAnchor())
+		obracanie
+		schowek
+		pauza
+*/
+
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <time.h>
@@ -16,7 +24,9 @@ Wa¿ne komentarze:
 
 #define DAS_DEFAULT 170	// DAS - Delayed Auto Shift - iloœæ czasu w ms, przez jak¹ trzeba trzymaæ przucisk, ¿eby tetrimino zaczê³o siê poruszaæ ze sta³¹ prêdkoœci¹
 #define ARR_DEFAULT 50	// ARR - Auto Repeat Rate - iloœæ czasu w ms pomiêdzy kolejnymi krokami tetrimina w bok
-#define SDF_DEFAULT 20	// SDF - Soft Drop Factor - obecnie iloœæ czasu w ms pomiêdzy kolejnymi krokami tetrimina podczas Soft Dropu
+#define SDF_DEFAULT 20	// SDF - Soft Drop Factor - mno¿nik standardowej prêdkoœci opadania tetrimina przy soft-dropie
+#define LOCK_TIME	500 // czas w ms, jaki tetrimino musi spêdziæ po nieudanej próbie opuszczenia w dó³, by zostaæ zablokowane w miejscu
+#define LOCK_RESET	15	// maksymalna iloœæ resetów czasomierza lock-in, zapobiegaj¹ca nieskoñczonemu unikaniu zalokowania
 
 enum ctrlMask
 {
@@ -205,7 +215,7 @@ public:
 
 	~MinoAnchor()
 	{
-		// stwórz nowy obiekt Mino w tablicy Matrix
+		// TODO - stwórz nowy obiekt Mino w tablicy Matrix
 		// przeka¿ nowemu Mino swoj¹ pozycjê i kolor;
 		// zniszcz siebie
 	}
@@ -224,7 +234,6 @@ public:
 	Player(sf::Texture &t)
 	{
 		id = 0;
-		//this->matrix = new Matrix(this);
 
 		this->ctrlKey = dftKey;
 		this->ctrlState = 0x00;
@@ -239,7 +248,6 @@ public:
 
 		this->setTexture(t);
 		this->setOrigin(sf::Vector2f((t.getSize().x) / 2.0, (t.getSize().y) / 2.0));
-		//this->setPosition(sf::Vector2f(FULLRES_W / 2.0, FULLRES_H / 2.0 + 2.0));
 		this->setPosition(sf::Vector2f((FULLRES_W / (5.0 + (1.0 / 3.0))) + ((t.getSize().x) / 2.0), FULLRES_H / 2.0 + 2.0));
 
 		this->level = 0;
@@ -249,7 +257,6 @@ public:
 	int id;
 	int piecesUsed = 0;
 
-	//Matrix* matrix;
 	Mino* matrix[10][40];
 
 	sf::Sprite hold[2];
@@ -265,6 +272,8 @@ public:
 
 	int sideMoveTime = 0;
 	int softDropTime = 0;
+	int lockdownTime = -1;
+	int lockdownReset = 0;
 	double softDropUpdate;
 	int domDir = 0; // dominuj¹cy kierunek - -1 to lewo, 1 to prawo
 
@@ -291,20 +300,32 @@ public:
 
 	void ctrlDo(int t)
 	{
-		//std::cout << t << "\t";
-		//std::cout << activeAnchor->posX << "\t" << activeAnchor->posY << "\t";
 		
+		bool lockReset = false;
+
 		// Wykonaj funkcje przycisków
+
+		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HDR"]))
+		{
+			if (!(this->ctrlState & HDR))
+			{
+				while (checkPos(0, -1))
+				{
+					activeAnchor->posY -= 1;
+				}
+
+				lockdownReset = INT_MAX;
+				return;
+			}
+		}
 
 		if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"]) || sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"]))	// jest wcisniety klawisz ruchu w bok
 		{
 			if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"]) && sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"])) // oba przyciski wciœniête
 			{
-				//std::cout << "LMV\tRMV\t";
 				if ((this->ctrlState & LMV) && (this->ctrlState & RMV))	// poprzednio oba
 				{
 					this->sideMoveTime += t;
-					//std::cout << " ";
 
 					if (this->domDir == -1) // prawy guzik zosta³ dociœniêty do lewego
 					{
@@ -312,7 +333,10 @@ public:
 						{
 							sideMoveTime -= ARR_DEFAULT;
 							if (checkPos(1, 0))
+							{
 								activeAnchor->posX += 1;
+								lockReset = true;
+							}
 						}
 					}
 					else // lewy guzik dociœniêty do prawego
@@ -321,29 +345,28 @@ public:
 						{
 							sideMoveTime -= ARR_DEFAULT;
 							if (checkPos(-1, 0))
+							{
 								activeAnchor->posX -= 1;
+								lockReset = true;
+							}
 						}
 					}
 				}
 				else if (this->ctrlState & LMV) // poprzednio lewo (teraz +prawo)
 				{
-					//std::cout << "+";
 					sideMoveTime = 0;
 				}
 				else if (this->ctrlState & RMV) // poprzednio praw (teraz +lewo)
 				{
-					//std::cout << "-";
 					sideMoveTime = 0;
 				}
 				else // poprzednio ¿aden
 				{
-					//std::cout << "_";
 					sideMoveTime = 0;
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"])) // tylko lewo
 			{
-				//std::cout << "LMV\t\t";
 				this->sideMoveTime += t;
 
 				if ((this->ctrlState & (LMV | RMV)) || (this->ctrlState & RMV)) // poprzednio oba lub tylko prawo
@@ -358,14 +381,20 @@ public:
 				{
 					this->domDir = -1;
 					if (checkPos(-1, 0))
+					{
 						activeAnchor->posX -= 1;
+						lockReset = true;
+					}
 				}
 
 				if (sideMoveTime >= DAS_DEFAULT)
 				{
 					sideMoveTime -= ARR_DEFAULT;
 					if (checkPos(-1, 0))
+					{
 						activeAnchor->posX -= 1;
+						lockReset = true;
+					}
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"])) // tylko prawo
@@ -398,93 +427,87 @@ public:
 		}
 		else // ¿aden klawisz ruchu w bok nie jest wciœniêty
 		{
-			//std::cout << "\t\t";
 			this->sideMoveTime = 0;
 			this->domDir = 0;
 		}
 
-		//std::cout << sideMoveTime << "\t";
-
 		if (sf::Keyboard::isKeyPressed(this->ctrlKey["LSP"]) && sf::Keyboard::isKeyPressed(this->ctrlKey["RSP"])) // oba przyciski wciœniête
 		{
-			//std::cout << "LSP\tRSP\t";
 			// nie dzieje siê nic
 		}
 		else if (sf::Keyboard::isKeyPressed(this->ctrlKey["LSP"])) // lewy obrót
 		{
-			//std::cout << "LSP\t\t";
 			if (!(this->ctrlState & LSP)) // poprzednio nie by³ trzymany lewy
 			{
-				// wykonaj obrót w lewo
+				// TODO - wykonaj obrót w lewo
 			}
 		}
 		else if (sf::Keyboard::isKeyPressed(this->ctrlKey["RSP"])) // prawy obrót
 		{
-			//std::cout << "\tRSP\t";
 			if (!(this->ctrlState & RSP)) // poprzednio nie by³ trzymany prawy
 			{
-				// wykonaj obrót w prawo
+				// TODO - wykonaj obrót w prawo
 			}
 		}
-		else
-		{
-			//std::cout << "\t\t";
-		}
-
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HDR"]))
-		{
-			//std::cout << "HDR\t";
-			if (!(this->ctrlState & HDR))
-			{
-				// pêtla: dopóki jest wolne miejsce pod spodem, opuszczaj tetrimino o 1
-			}
-		}
-		//else std::cout << "\t";
-
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["SDR"]))
-		{
-			//std::cout << "SDR\t";
-			if (!(this->ctrlState & SDR))
-			{
-				// jeœli nie ma nic pod spodem, opuœæ tetrimino o 1
-			}
-		}
-		//else std::cout << "\t";
 
 		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HLD"]))
 		{
-			//std::cout << "HLD\t";
 			if (!(this->ctrlState & HLD))
 			{
-				// jeœli schowek aktywny, schowaj tetrimino
+				// TODO - jeœli schowek aktywny, schowaj tetrimino
 			}
 		}
-		//else std::cout << "\t";
 
 		if (sf::Keyboard::isKeyPressed(this->ctrlKey["PSE"]))
 		{
-			//std::cout << "PSE\t";
 			if (!(this->ctrlState & PSE))
 			{
-				// zapauzuj grê
+				// TODO - zapauzuj grê
+			}
+		}
+
+		// Zaktualizuj grawitacjê
+
+		if (sf::Keyboard::isKeyPressed(this->ctrlKey["SDR"]))
+		{
+			softDropTime += (SDF_DEFAULT * t);
+		}
+		else
+		{
+			softDropTime += t;
+		}
+	
+		if (softDropTime >= softDropUpdate)
+		{
+			if (checkPos(0, -1))
+			{
+				softDropTime -= softDropUpdate;
+				activeAnchor->posY -= 1;
+			}
+			else
+			{
+				if (lockdownTime == -1)
+				{
+					lockdownTime = 0;
+				}
+				else
+				{
+					lockdownTime += t;
+
+					// TODO - je¿eli wiêksze ni¿ czas na lockdown, zalokuj
+				}
 			}
 		}
 
 		this->activeAnchor->updateScreenXY();
 
-		// Zaktualizuj grawitacjê
+		// Aktualizacja licznika resetów
 
-		softDropTime += t;
-
-		if (softDropTime >= softDropUpdate)
+		if (lockReset)
 		{
-			softDropTime -= softDropUpdate;
-			if (checkPos(0, -1))
-			{
-				activeAnchor->posY -= 1;
-			}
+			lockdownReset++;
+			lockdownTime = -1;
 		}
-		//std::cout << softDropTime << "/" << softDropUpdate;
 
 		// Zapisz obecne wciœniêcia do porównania w nastêpnej klatce
 
@@ -711,8 +734,6 @@ int main()
 	dftKey["HDR"] = sf::Keyboard::Space;	// Hard DRop
 	dftKey["HLD"] = sf::Keyboard::C;		// HoLD
 	dftKey["PSE"] = sf::Keyboard::Escape;	// PauSE
-	
-	//std::cout << "xd\n";
 
 	sf::Clock frameTimer;
 	int fpsCount;
@@ -803,8 +824,6 @@ int main()
 
 	player[1] = NULL;
 
-	// TODO - wydrukuj kolejkê
-
 	player[0]->genPiece(&pcQueue, ttr_Mino);
 
 	// Pêtla gry
@@ -820,27 +839,6 @@ int main()
 		sf::String titleText = "Tetris PSk - "+ std::to_string(fpsCount) + " FPS";
 		window.setTitle(titleText);
 		frameTimer.restart();
-		/*for (int i = 0; i < 1919; i++)
-		{
-			frameAvgH[i] = frameAvgH[i + 1];
-		}
-		frameAvgH[1919] = 0.0;
-		for (int i = 0; i < 1919; i++)
-		{
-			frameAvgH[1919] += (frameHistory[i] / 1920.0);
-			frameHistory[i] = frameHistory[i + 1];
-		}
-		frameAvgH[1919] += (frameHistory[1919]/1920.0);
-		frameHistory[1919] = fpsCount;
-		
-		if (fpsCount > maxFps)
-		{
-			maxFps = fpsCount;
-		}
-		if (fpsCount < minFps)
-		{
-			minFps = fpsCount;
-		}*/
 
 		// Kontrola
 
@@ -860,36 +858,12 @@ int main()
 		window.setView(view);
 
 		window.clear();
-		/*
-		for (int i = 0; i < 1919; i++)
-		{
-			sf::Vertex line[] =
-			{
-				sf::Vertex(sf::Vector2f(i, frameHistory[i] / maxFps * FULLRES_H), sf::Color(255, 0, 0, 64)),
-				sf::Vertex(sf::Vector2f(i + 1, frameHistory[i + 1] / maxFps * FULLRES_H), sf::Color(255, 0, 0, 64))
-			};
 
-			window.draw(line, 2, sf::Lines);
-		}
-		for (int i = 0; i < 1919; i++)
-		{
-			sf::Vertex line[] =
-			{
-				sf::Vertex(sf::Vector2f(i, frameAvgH[i] / maxFps * FULLRES_H), sf::Color(255, 255, 255, 64)),
-				sf::Vertex(sf::Vector2f(i + 1, frameAvgH[i + 1] / maxFps * FULLRES_H), sf::Color(255, 255, 255, 64))
-			};
-
-			window.draw(line, 2, sf::Lines);
-		}
-		std::cout << minFps << "\t" << frameAvgH[1919] << "\t" << maxFps << "\n";
-		*/
 		window.draw(*player[0]);
 		window.draw(player[0]->hold[0]);
 		window.draw(player[0]->qBox);
 		player[0]->drawPreview(window, ttr_Preview);
 		player[0]->drawMatrix(window);
-
-		
 
 		window.display();
 		
