@@ -18,7 +18,20 @@ Wa¿ne komentarze:
 #include <time.h>
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
 #include <map>
+
+// Deklaracja tekstur
+
+sf::Texture ttr_Matrix;
+sf::Texture ttr_Mino;
+sf::Texture ttr_HoldSolo;
+sf::Texture ttr_HoldTop;
+sf::Texture ttr_HoldBot;
+sf::Texture ttr_Queue5;
+sf::Texture ttr_Preview;
+
+std::ofstream queueFile;
 
 // Definicja sta³ych wartoœci gry
 
@@ -27,6 +40,9 @@ Wa¿ne komentarze:
 #define SDF_DEFAULT 20	// SDF - Soft Drop Factor - mno¿nik standardowej prêdkoœci opadania tetrimina przy soft-dropie
 #define LOCK_TIME	500 // czas w ms, jaki tetrimino musi spêdziæ po nieudanej próbie opuszczenia w dó³, by zostaæ zablokowane w miejscu
 #define LOCK_RESET	15	// maksymalna iloœæ resetów czasomierza lock-in, zapobiegaj¹ca nieskoñczonemu unikaniu zalokowania
+#define SPAWN_RESET	117	// czas w ms od zalokowania Tetrimina, po którym generowane jest nowe
+
+int offsetChart[3][4][5][2]; // Tabela obrótów - [zestaw][kierunek][nr testu][x lub y]
 
 enum ctrlMask
 {
@@ -49,8 +65,7 @@ std::map <std::string, sf::Keyboard::Key> dftKey;
 
 bool fullScreen = false;
 
-double windowScale = 1.0/2.0;
-
+double windowScale = 1.0;
 int windowW = FULLRES_W * windowScale;
 int windowH = FULLRES_H * windowScale;
 
@@ -88,26 +103,27 @@ class Mino : public sf::Sprite
 public:
 	Mino()
 	{
-
+		readyToShow = false;
 	}
 	
 	Mino* parent;
 	int colour;
 	int posX, posY;
+	bool readyToShow;
 
 	void rotate(bool cw)
 	{
 		if (cw) // ClockWise
 		{
-			int swap = this->posX;
-			this->posX = this->posY;
-			this->posY = 0 - swap;
+			int swap = posX;
+			posX = posY;
+			posY = 0 - swap;
 		}
 		else // Counter ClockWise
 		{
-			int swap = this->posX;
-			this->posX = 0 - this->posY;
-			this->posY = swap;
+			int swap = posX;
+			posX = 0 - posY;
+			posY = swap;
 		}
 	}
 };
@@ -117,113 +133,112 @@ class MinoAnchor : public Mino
 public: 
 	MinoAnchor(Player* p, int c, sf::Texture &t)
 	{
-		this->matrix = p;
+		matrix = p;
 
-		this->posX = 4;
-		this->posY = 20;
+		posX = 4;
+		posY = 20;
+		rot = 0;
+		colour = c;
+		readyToLock = false;
 
-		this->children[0] = new Mino();
-		this->children[1] = new Mino();
-		this->children[2] = new Mino();
+		children[0] = new Mino();
+		children[1] = new Mino();
+		children[2] = new Mino();
 
 		switch (c)
 		{
 			case 0: // Z
 			{
-				this->children[0]->posX = 0-1;
-				this->children[0]->posY = 1;
-				this->children[1]->posX = 0;
-				this->children[1]->posY = 1;
-				this->children[2]->posX = 1;
-				this->children[2]->posY = 0;
+				children[0]->posX = 0-1;
+				children[0]->posY = 1;
+				children[1]->posX = 0;
+				children[1]->posY = 1;
+				children[2]->posX = 1;
+				children[2]->posY = 0;
 				break;
 			}
 			case 1: // L
 			{
-				this->children[0]->posX = 1;
-				this->children[0]->posY = 1;
-				this->children[1]->posX = 0-1;
-				this->children[1]->posY = 0;
-				this->children[2]->posX = 1;
-				this->children[2]->posY = 0;
+				children[0]->posX = 1;
+				children[0]->posY = 1;
+				children[1]->posX = 0-1;
+				children[1]->posY = 0;
+				children[2]->posX = 1;
+				children[2]->posY = 0;
 				break;
 			}
 			case 2: // O
 			{
-				this->children[0]->posX = 0;
-				this->children[0]->posY = 1;
-				this->children[1]->posX = 1;
-				this->children[1]->posY = 1;
-				this->children[2]->posX = 1;
-				this->children[2]->posY = 0;
+				children[0]->posX = 0;
+				children[0]->posY = 1;
+				children[1]->posX = 1;
+				children[1]->posY = 1;
+				children[2]->posX = 1;
+				children[2]->posY = 0;
 				break;
 			}
 			case 3: // S
 			{
-				this->children[0]->posX = 0;
-				this->children[0]->posY = 1;
-				this->children[1]->posX = 1;
-				this->children[1]->posY = 1;
-				this->children[2]->posX = 0-1;
-				this->children[2]->posY = 0;
+				children[0]->posX = 0;
+				children[0]->posY = 1;
+				children[1]->posX = 1;
+				children[1]->posY = 1;
+				children[2]->posX = 0-1;
+				children[2]->posY = 0;
 				break;
 			}
 			case 4: // I
 			{
-				this->children[0]->posX = 0-1;
-				this->children[0]->posY = 0;
-				this->children[1]->posX = 1;
-				this->children[1]->posY = 0;
-				this->children[2]->posX = 2;
-				this->children[2]->posY = 0;
+				children[0]->posX = 0-1;
+				children[0]->posY = 0;
+				children[1]->posX = 1;
+				children[1]->posY = 0;
+				children[2]->posX = 2;
+				children[2]->posY = 0;
 				break;
 			}
 			case 5: // J
 			{
-				this->children[0]->posX = 0-1;
-				this->children[0]->posY = 1;
-				this->children[1]->posX = 0-1;
-				this->children[1]->posY = 0;
-				this->children[2]->posX = 1;
-				this->children[2]->posY = 0;
+				children[0]->posX = 0-1;
+				children[0]->posY = 1;
+				children[1]->posX = 0-1;
+				children[1]->posY = 0;
+				children[2]->posX = 1;
+				children[2]->posY = 0;
 				break;
 			}
 			case 6: // T
 			{
-				this->children[0]->posX = 0;
-				this->children[0]->posY = 1;
-				this->children[1]->posX = 0-1;
-				this->children[1]->posY = 0;
-				this->children[2]->posX = 1;
-				this->children[2]->posY = 0;
+				children[0]->posX = 0;
+				children[0]->posY = 1;
+				children[1]->posX = 0-1;
+				children[1]->posY = 0;
+				children[2]->posX = 1;
+				children[2]->posY = 0;
 				break;
 			}
 		}
 		
-		this->setTexture(t);
-		this->children[0]->setTexture(t);
-		this->children[1]->setTexture(t);
-		this->children[2]->setTexture(t);
+		setTexture(t);
+		children[0]->setTexture(t);
+		children[1]->setTexture(t);
+		children[2]->setTexture(t);
 
-		this->setTextureRect(sf::IntRect((t.getSize().x) / 3 * (c % 3), (t.getSize().y) / 3 * ((c - (c % 3)) / 3), (t.getSize().x) / 3, (t.getSize().y) / 3));
-		this->children[0]->setTextureRect(this->getTextureRect());
-		this->children[1]->setTextureRect(this->getTextureRect());
-		this->children[2]->setTextureRect(this->getTextureRect());
+		setTextureRect(sf::IntRect((t.getSize().x) / 3 * (c % 3), (t.getSize().y) / 3 * ((c - (c % 3)) / 3), (t.getSize().x) / 3, (t.getSize().y) / 3));
+		children[0]->setTextureRect(getTextureRect());
+		children[1]->setTextureRect(getTextureRect());
+		children[2]->setTextureRect(getTextureRect());
 		
-		this->updateScreenXY();
+		updateScreenXY();
 	}
 
-	~MinoAnchor()
-	{
-		// TODO - stwórz nowy obiekt Mino w tablicy Matrix
-		// przeka¿ nowemu Mino swoj¹ pozycjê i kolor;
-		// zniszcz siebie
-	}
+	~MinoAnchor();
 	
 	Player* matrix;
 	int shape;
 	int rot; // 0 - pozycja startowa; 1 - obrót w prawo; 2 - dwa obroty; 3 - obrót w lewo
 	Mino* children[3];
+	bool readyToLock;
 
 	void updateScreenXY();
 };
@@ -235,23 +250,32 @@ public:
 	{
 		id = 0;
 
-		this->ctrlKey = dftKey;
-		this->ctrlState = 0x00;
+		ctrlKey = dftKey;
+		ctrlState = 0x00;
 
 		for (int i = 0; i < 10; i++)
 		{
 			for (int j = 0; j < 40; j++)
 			{
-				this->matrix[i][j] = NULL;
+				matrix[i][j] = NULL;
 			}
 		}
 
-		this->setTexture(t);
-		this->setOrigin(sf::Vector2f((t.getSize().x) / 2.0, (t.getSize().y) / 2.0));
-		this->setPosition(sf::Vector2f((FULLRES_W / (5.0 + (1.0 / 3.0))) + ((t.getSize().x) / 2.0), FULLRES_H / 2.0 + 2.0));
+		setTexture(t);
+		setOrigin(sf::Vector2f((t.getSize().x) / 2.0, (t.getSize().y) / 2.0));
+		setPosition(sf::Vector2f((FULLRES_W / (5.0 + (1.0 / 3.0))) + ((t.getSize().x) / 2.0), FULLRES_H / 2.0 + 2.0));
 
-		this->level = 0;
-		this->softDropUpdate = pow(0.8 - (level * 0.007), level) * 1000;
+		level = 0;
+		hold = 7;
+		holdActive = true;
+		holdSwap = false;
+
+		for (int i = 0; i < 4; i++)
+		{
+			toClear[i] = 50;
+		}
+
+		softDropUpdate = pow(0.8 - (level * 0.007), level) * 1000;
 	}
 
 	int id;
@@ -259,10 +283,14 @@ public:
 
 	Mino* matrix[10][40];
 
-	sf::Sprite hold[2];
+	sf::Sprite holdBox[2];
 	sf::Sprite qBox;
 
 	int level;
+	int hold;
+	bool holdActive;
+	bool holdSwap;
+	int toClear[4];
 
 	MinoAnchor* activeAnchor;
 
@@ -272,62 +300,172 @@ public:
 
 	int sideMoveTime = 0;
 	int softDropTime = 0;
+	double softDropUpdate;
 	int lockdownTime = -1;
 	int lockdownReset = 0;
-	double softDropUpdate;
+	int spawnTime = -1;
 	int domDir = 0; // dominuj¹cy kierunek - -1 to lewo, 1 to prawo
 
 	int pcQueue[5];
 
 	void genPiece(pQueue* q, sf::Texture &t) // stwórz nowe tetrimino
 	{
-		this->activeAnchor = new MinoAnchor(this, pcQueue[0], t);
-
-		this->updateQueue(q);
+		if (q != NULL)
+		{
+			activeAnchor = new MinoAnchor(this, pcQueue[0], t);
+			updateQueue(q);
+		}
+		else
+		{
+			activeAnchor = new MinoAnchor(this, hold, t);
+		}
 	}
 
 	void updateQueue(pQueue* q)
 	{
 		for (int i = 0; i < 4; i++)
-			this->pcQueue[i] = pcQueue[i + 1];
-		this->pcQueue[4] = q->head->color;
+			pcQueue[i] = pcQueue[i + 1];
+		pcQueue[4] = q->head->color;
 		if ((!(q->head->id % 7)) && (q->head->next == NULL))
 		{
 			addBag(q);
 		}
+
+		queueFile << q->head->color;
 		dequeue(q);
 	}
 
-	void ctrlDo(int t)
+	void rotate(bool cw)
 	{
-		
+		int pom;
+		if (cw == true)
+			pom = 1;
+		else
+			pom = 0;
+
+		bool rotSuccess = false;
+
+		activeAnchor->children[0]->rotate(abs(0 - pom));
+		activeAnchor->children[1]->rotate(abs(0 - pom));
+		activeAnchor->children[2]->rotate(abs(0 - pom));
+
+		int xShift;
+		int yShift;
+
+		for (int i = 0; i < 5; i++)
+		{
+
+			if (activeAnchor->colour == 2)
+			{
+				xShift = offsetChart[2][activeAnchor->rot][i][0] - offsetChart[2][(activeAnchor->rot + 3 - (pom * 2)) % 4][i][0];
+				yShift = offsetChart[2][activeAnchor->rot][i][1] - offsetChart[2][(activeAnchor->rot + 3 - (pom * 2)) % 4][i][1];
+			}
+			else if (activeAnchor->colour == 4)
+			{
+				xShift = offsetChart[1][activeAnchor->rot][i][0] - offsetChart[1][(activeAnchor->rot + 3 - (pom * 2)) % 4][i][0];
+				yShift = offsetChart[1][activeAnchor->rot][i][1] - offsetChart[1][(activeAnchor->rot + 3 - (pom * 2)) % 4][i][1];
+			}
+			else
+			{
+				xShift = offsetChart[0][activeAnchor->rot][i][0] - offsetChart[0][(activeAnchor->rot + 3 - (pom * 2)) % 4][i][0];
+				yShift = offsetChart[0][activeAnchor->rot][i][1] - offsetChart[0][(activeAnchor->rot + 3 - (pom * 2)) % 4][i][1];
+			}
+
+			if (checkPos(xShift, yShift))
+			{
+				activeAnchor->posX += xShift;
+				activeAnchor->posY += yShift;
+				activeAnchor->rot = (activeAnchor->rot + 3 - (pom * 2)) % 4;
+				rotSuccess = true;
+				if (lockdownTime != -1) //resetowanie lock-ina
+				{
+					softDropTime = 0;
+					lockdownReset++;
+					lockdownTime = -1;
+				}
+				break;
+			}
+		}
+
+		if (!(rotSuccess))
+		{
+			activeAnchor->children[0]->rotate(pom);
+			activeAnchor->children[1]->rotate(pom);
+			activeAnchor->children[2]->rotate(pom);
+		}
+	}
+
+	void ctrlDo(int t, sf::Texture &ttr)
+	{
 		bool lockReset = false;
 
 		// Wykonaj funkcje przycisków
-
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HDR"]))
+		if (sf::Keyboard::isKeyPressed(ctrlKey["HLD"]))
 		{
-			if (!(this->ctrlState & HDR))
+			//std::cout << "\tHLD";
+			if (!(ctrlState & HLD))
+			{
+				if (holdActive)
+				{
+					if (hold == 7)
+					{
+						hold = activeAnchor->colour;
+						delete activeAnchor;
+
+						spawnTime = -1;
+						lockdownReset = 0;
+						lockdownReset = -1;
+						softDropTime = 0;
+						ctrlState |= 0x20;
+						holdSwap = true;
+					}
+					else
+					{
+						int swap = activeAnchor->colour;
+						delete activeAnchor;
+
+						spawnTime = -1;
+						lockdownReset = 0;
+						lockdownReset = -1;
+						softDropTime = 0;
+						ctrlState |= 0x20;
+						genPiece(NULL, ttr);
+						if (checkPos(0, -1))
+							activeAnchor->posY -= 1;
+
+						hold = swap;
+					}
+
+					holdActive = false;
+					return;
+				}
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(ctrlKey["HDR"]))
+		{
+			//std::cout << "\tHDR\t";
+			if (!(ctrlState & HDR))
 			{
 				while (checkPos(0, -1))
 				{
 					activeAnchor->posY -= 1;
 				}
 
-				lockdownReset = INT_MAX;
+				lockdownReset = INT_MAX - LOCK_RESET;
+				activeAnchor->updateScreenXY();
 				return;
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"]) || sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"]))	// jest wcisniety klawisz ruchu w bok
+		if (sf::Keyboard::isKeyPressed(ctrlKey["LMV"]) || sf::Keyboard::isKeyPressed(ctrlKey["RMV"]))	// jest wcisniety klawisz ruchu w bok
 		{
-			if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"]) && sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"])) // oba przyciski wciœniête
+			if (sf::Keyboard::isKeyPressed(ctrlKey["LMV"]) && sf::Keyboard::isKeyPressed(ctrlKey["RMV"])) // oba przyciski wciœniête
 			{
-				if ((this->ctrlState & LMV) && (this->ctrlState & RMV))	// poprzednio oba
+				if ((ctrlState & LMV) && (ctrlState & RMV))	// poprzednio oba
 				{
-					this->sideMoveTime += t;
+					sideMoveTime += t;
 
-					if (this->domDir == -1) // prawy guzik zosta³ dociœniêty do lewego
+					if (domDir == -1) // prawy guzik zosta³ dociœniêty do lewego
 					{
 						if (sideMoveTime >= DAS_DEFAULT)
 						{
@@ -335,55 +473,91 @@ public:
 							if (checkPos(1, 0))
 							{
 								activeAnchor->posX += 1;
-								lockReset = true;
+								if (lockdownTime != -1) //resetowanie lock-ina
+								{
+									softDropTime = 0;
+									lockdownReset++;
+									lockdownTime = -1;
+								}
 							}
 						}
 					}
 					else // lewy guzik dociœniêty do prawego
 					{
+						
 						if (sideMoveTime >= DAS_DEFAULT)
 						{
 							sideMoveTime -= ARR_DEFAULT;
 							if (checkPos(-1, 0))
 							{
 								activeAnchor->posX -= 1;
-								lockReset = true;
+								if (lockdownTime != -1) //resetowanie lock-ina
+								{
+									softDropTime = 0;
+									lockdownReset++;
+									lockdownTime = -1;
+								}
 							}
 						}
 					}
 				}
-				else if (this->ctrlState & LMV) // poprzednio lewo (teraz +prawo)
+				else if (ctrlState & LMV) // poprzednio lewo (teraz +prawo)
 				{
 					sideMoveTime = 0;
+					if (checkPos(1, 0))
+					{
+						activeAnchor->posX += 1;
+						if (lockdownTime != -1) //resetowanie lock-ina
+						{
+							softDropTime = 0;
+							lockdownReset++;
+							lockdownTime = -1;
+						}
+					}
 				}
-				else if (this->ctrlState & RMV) // poprzednio praw (teraz +lewo)
+				else if (ctrlState & RMV) // poprzednio praw (teraz +lewo)
 				{
 					sideMoveTime = 0;
+					if (checkPos(-1, 0))
+					{
+						activeAnchor->posX -= 1;
+						if (lockdownTime != -1) //resetowanie lock-ina
+						{
+							softDropTime = 0;
+							lockdownReset++;
+							lockdownTime = -1;
+						}
+					}
 				}
 				else // poprzednio ¿aden
 				{
 					sideMoveTime = 0;
 				}
 			}
-			else if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"])) // tylko lewo
+			else if (sf::Keyboard::isKeyPressed(ctrlKey["LMV"])) // tylko lewo
 			{
-				this->sideMoveTime += t;
+				sideMoveTime += t;
 
-				if ((this->ctrlState & (LMV | RMV)) || (this->ctrlState & RMV)) // poprzednio oba lub tylko prawo
+				if ((ctrlState & (LMV | RMV)) || (ctrlState & RMV)) // poprzednio oba lub tylko prawo
 				{
-					this->domDir = -1;
+					domDir = -1;
 				}
-				else if (this->ctrlState & LMV) // poprzednio tylko lewo
+				else if (ctrlState & LMV) // poprzednio tylko lewo
 				{
 					// nic siê nie dzieje
 				}
 				else // poprzednio ¿aden
 				{
-					this->domDir = -1;
+					domDir = -1;
 					if (checkPos(-1, 0))
 					{
 						activeAnchor->posX -= 1;
-						lockReset = true;
+						if (lockdownTime != -1) //resetowanie lock-ina
+						{
+							softDropTime = 0;
+							lockdownReset++;
+							lockdownTime = -1;
+						}
 					}
 				}
 
@@ -393,26 +567,31 @@ public:
 					if (checkPos(-1, 0))
 					{
 						activeAnchor->posX -= 1;
-						lockReset = true;
+						if (lockdownTime != -1) //resetowanie lock-ina
+						{
+							softDropTime = 0;
+							lockdownReset++;
+							lockdownTime = -1;
+						}
 					}
 				}
 			}
-			else if (sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"])) // tylko prawo
+			else if (sf::Keyboard::isKeyPressed(ctrlKey["RMV"])) // tylko prawo
 			{
 				//std::cout << "\tRMV\t";
-				this->sideMoveTime += t;
+				sideMoveTime += t;
 
-				if ((this->ctrlState & (LMV | RMV)) || (this->ctrlState & LMV)) // poprzednio oba lub tylko lewo
+				if ((ctrlState & (LMV | RMV)) || (ctrlState & LMV)) // poprzednio oba lub tylko lewo
 				{
-					this->domDir = 1;
+					domDir = 1;
 				}
-				else if (this->ctrlState & LMV) // poprzednio tylko prawo
+				else if (ctrlState & LMV) // poprzednio tylko prawo
 				{
 					// nic siê nie dzieje
 				}
 				else // poprzednio ¿aden
 				{
-					this->domDir = 1;
+					domDir = 1;
 					if (checkPos(1, 0))
 						activeAnchor->posX += 1;
 				}
@@ -427,40 +606,43 @@ public:
 		}
 		else // ¿aden klawisz ruchu w bok nie jest wciœniêty
 		{
-			this->sideMoveTime = 0;
-			this->domDir = 0;
+			sideMoveTime = 0;
+			domDir = 0;
 		}
 
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["LSP"]) && sf::Keyboard::isKeyPressed(this->ctrlKey["RSP"])) // oba przyciski wciœniête
+		if (sf::Keyboard::isKeyPressed(ctrlKey["LSP"]) && sf::Keyboard::isKeyPressed(ctrlKey["RSP"])) // oba przyciski obrotu wciœniête - FIXIT
 		{
-			// nie dzieje siê nic
-		}
-		else if (sf::Keyboard::isKeyPressed(this->ctrlKey["LSP"])) // lewy obrót
-		{
-			if (!(this->ctrlState & LSP)) // poprzednio nie by³ trzymany lewy
+			if ((ctrlState & LSP) && (ctrlState & RSP)) // poprzednio oba
 			{
-				// TODO - wykonaj obrót w lewo
+				// nie dzieje sie nic
+			}
+			else if (ctrlState & LSP)	// poprzednio tylko lewo (teraz +prawo)
+			{
+				rotate(true);
+			}
+			else if (ctrlState & RSP)	// poprzednio tylko prawo (teraz +lewo)
+			{
+				rotate(false);
 			}
 		}
-		else if (sf::Keyboard::isKeyPressed(this->ctrlKey["RSP"])) // prawy obrót
+		else if (sf::Keyboard::isKeyPressed(ctrlKey["LSP"])) // lewy obrót
 		{
-			if (!(this->ctrlState & RSP)) // poprzednio nie by³ trzymany prawy
+			if (!(ctrlState & LSP)) // poprzednio nie by³ trzymany lewy
 			{
-				// TODO - wykonaj obrót w prawo
+				rotate(false);
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(ctrlKey["RSP"])) // prawy obrót
+		{
+			if (!(ctrlState & RSP)) // poprzednio nie by³ trzymany prawy
+			{
+				rotate(true);
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HLD"]))
+		if (sf::Keyboard::isKeyPressed(ctrlKey["PSE"]))
 		{
-			if (!(this->ctrlState & HLD))
-			{
-				// TODO - jeœli schowek aktywny, schowaj tetrimino
-			}
-		}
-
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["PSE"]))
-		{
-			if (!(this->ctrlState & PSE))
+			if (!(ctrlState & PSE))
 			{
 				// TODO - zapauzuj grê
 			}
@@ -468,7 +650,7 @@ public:
 
 		// Zaktualizuj grawitacjê
 
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["SDR"]))
+		if (sf::Keyboard::isKeyPressed(ctrlKey["SDR"]))
 		{
 			softDropTime += (SDF_DEFAULT * t);
 		}
@@ -494,59 +676,136 @@ public:
 				{
 					lockdownTime += t;
 
+					if (lockdownTime >= LOCK_TIME)
+						lockdownReset = LOCK_RESET + 1;
 					// TODO - je¿eli wiêksze ni¿ czas na lockdown, zalokuj
 				}
 			}
 		}
 
-		this->activeAnchor->updateScreenXY();
-
-		// Aktualizacja licznika resetów
-
-		if (lockReset)
-		{
-			lockdownReset++;
-			lockdownTime = -1;
-		}
+		activeAnchor->updateScreenXY();
 
 		// Zapisz obecne wciœniêcia do porównania w nastêpnej klatce
 
-		this->ctrlState = 0x00;
+		ctrlState = 0x00;
 
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["LMV"]))	// ruch w lewo
+		if (sf::Keyboard::isKeyPressed(ctrlKey["LMV"]))	// ruch w lewo
 		{
-			this->ctrlState |= 0x01;
+			ctrlState |= 0x01;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["RMV"]))	// ruch w prawo
+		if (sf::Keyboard::isKeyPressed(ctrlKey["RMV"]))	// ruch w prawo
 		{
-			this->ctrlState |= 0x02;
+			ctrlState |= 0x02;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["LSP"]))	// obrot w lewo
+		if (sf::Keyboard::isKeyPressed(ctrlKey["LSP"]))	// obrot w lewo
 		{
-			this->ctrlState |= 0x04;
+			ctrlState |= 0x04;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["RSP"]))	// obrot w prawo
+		if (sf::Keyboard::isKeyPressed(ctrlKey["RSP"]))	// obrot w prawo
 		{
-			this->ctrlState |= 0x08;
+			ctrlState |= 0x08;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["SDR"]))	// softdrop
+		if (sf::Keyboard::isKeyPressed(ctrlKey["SDR"]))	// softdrop
 		{
-			this->ctrlState |= 0x10;
+			ctrlState |= 0x10;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HDR"]))	// harddrop
+		if (sf::Keyboard::isKeyPressed(ctrlKey["HDR"]))	// harddrop
 		{
-			this->ctrlState |= 0x20;
+			ctrlState |= 0x20;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["HLD"]))	// hold
+		if (sf::Keyboard::isKeyPressed(ctrlKey["HLD"]))	// hold
 		{
-			this->ctrlState |= 0x40;
+			ctrlState |= 0x40;
 		}
-		if (sf::Keyboard::isKeyPressed(this->ctrlKey["PSE"]))	// pauza
+		if (sf::Keyboard::isKeyPressed(ctrlKey["PSE"]))	// pauza
 		{
-			this->ctrlState |= 0x80;
+			ctrlState |= 0x80;
 		}
 
 		//std::cout << "\n";
+	}
+
+	void checkVisuals(sf::Texture &t)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			for (int j = 0; j < 10; j++)
+			{
+				if (matrix[j][i] != NULL)
+				{
+					if (matrix[j][i]->readyToShow == false)
+					{
+						matrix[j][i]->setTexture(t);
+						int c = matrix[j][i]->colour;
+						matrix[j][i]->setTextureRect(sf::IntRect((t.getSize().x) / 3 * (c % 3), (t.getSize().y) / 3 * ((c - (c % 3)) / 3), (t.getSize().x) / 3, (t.getSize().y) / 3));
+						matrix[j][i]->readyToShow = true;
+					}
+				}
+			}
+		}
+	}
+
+	void lockIn(sf::Texture &t)
+	{
+		activeAnchor->readyToLock = true;
+		spawnTime = 0;
+		delete activeAnchor;
+		checkVisuals(t);
+		checkLines();
+	}
+
+	void checkLines()
+	{
+		int x = 0;
+
+		for (int i = 0; i < 40; i++)
+		{
+			for (int j = 0; j < 10; j++)
+			{
+				if (matrix[j][i] == NULL)
+					j = 10;
+
+				if (j == 9)
+				{
+					toClear[x] = i;
+					x++;
+				}
+			}
+		}
+	}
+
+	void clearLines()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (toClear[i] < 40)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					for (int k = toClear[i]; k < 39; k++)
+					{
+						matrix[j][k] = matrix[j][k+1];
+						if (matrix[j][k] != NULL)
+						{
+							matrix[j][k]->readyToShow = false;
+							matrix[j][k]->move(sf::Vector2f(0.f, 32.f));
+						}
+					}
+
+					matrix[j][39] = NULL;
+				}
+
+				for (int j = i; j < 4; j++)
+				{
+					toClear[j]--;
+				}
+			}
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			toClear[i] = 50;
+		}
 	}
 
 	bool checkPos(int xSh, int ySh)
@@ -582,19 +841,37 @@ public:
 
 	void sdropCalc()
 	{
-		this->softDropUpdate = pow(0.8 - (level * 0.007), level) * 1000;
+		softDropUpdate = pow(0.8 - (level * 0.007), level) * 1000;
 	}
 
-	void drawPreview(sf::RenderWindow &w, sf::Texture t)
+	void drawPreview(sf::RenderWindow &w)
 	{
 		sf::Sprite spr_Preview;
-		spr_Preview.setTexture(t);
+		spr_Preview.setTexture(ttr_Preview);
 
-		spr_Preview.setTextureRect(sf::IntRect((t.getSize().x) / 3 * (pcQueue[0] % 3), (t.getSize().y) / 3 * ((pcQueue[0] - (pcQueue[0] % 3)) / 3), (t.getSize().x) / 3, (t.getSize().y) / 3));
-		spr_Preview.setOrigin(sf::Vector2f((t.getSize().x) / 6.0, (t.getSize().y) / 6.0));
+		spr_Preview.setTextureRect(sf::IntRect((ttr_Preview.getSize().x) / 3 * (pcQueue[0] % 3), (ttr_Preview.getSize().y) / 3 * ((pcQueue[0] - (pcQueue[0] % 3)) / 3), (ttr_Preview.getSize().x) / 3, (ttr_Preview.getSize().y) / 3));
+		spr_Preview.setOrigin(sf::Vector2f((ttr_Preview.getSize().x) / 6.0, (ttr_Preview.getSize().y) / 6.0));
 		spr_Preview.setPosition(sf::Vector2f(qBox.getPosition().x - 2.0, qBox.getPosition().y - 278.0));
 
 		w.draw(spr_Preview);
+
+		if (hold != 7)
+		{
+			if (holdBox[1].getTexture() == NULL)
+			{
+				spr_Preview.setTextureRect(sf::IntRect((ttr_Preview.getSize().x) / 3 * (hold % 3), (ttr_Preview.getSize().y) / 3 * ((hold - (hold % 3)) / 3), (ttr_Preview.getSize().x) / 3, (ttr_Preview.getSize().y) / 3));
+				spr_Preview.setOrigin(sf::Vector2f((ttr_Preview.getSize().x) / 6.0, (ttr_Preview.getSize().y) / 6.0));
+				spr_Preview.setPosition(sf::Vector2f(holdBox[0].getPosition().x + 12.0, qBox.getPosition().y - 278.0));
+
+				if (!holdActive)
+				{
+					spr_Preview.setColor(sf::Color(255, 255, 255, 128));
+				}
+			}
+
+			w.draw(spr_Preview);
+			spr_Preview.setColor(sf::Color(255, 255, 255, 255));
+		}
 
 		spr_Preview.setScale(sf::Vector2f(2.0 / 3.0, 2.0 / 3.0));
 		for (int i = 1; i < 5; i++)
@@ -608,6 +885,44 @@ public:
 
 	void drawMatrix(sf::RenderWindow &w)
 	{
+		// rysuj ducha
+		if (activeAnchor != NULL)
+		{
+			sf::Sprite spr_Ghost;
+			spr_Ghost.setTexture(ttr_Preview);
+
+			int xMax, yMax, xMin, yMin;
+			int howMuch = 0;
+
+			xMin = activeAnchor->getPosition().x;
+			yMin = activeAnchor->getPosition().y;
+			xMax = activeAnchor->getPosition().x;
+			yMax = activeAnchor->getPosition().y;
+
+			for (int i = 0; i < 3; i++)
+			{
+				if (activeAnchor->children[i]->getPosition().x > xMin)
+					xMin = activeAnchor->children[i]->getPosition().x;
+				if (activeAnchor->children[i]->getPosition().y > yMin)
+					yMin = activeAnchor->children[i]->getPosition().y;
+				if (activeAnchor->children[i]->getPosition().x < xMin)
+					xMax = activeAnchor->children[i]->getPosition().x;
+				if (activeAnchor->children[i]->getPosition().y < yMin)
+					yMax = activeAnchor->children[i]->getPosition().y;
+			}
+
+			while (checkPos(0, 0 - (1 + howMuch)))
+				howMuch++;
+
+			spr_Ghost.setTextureRect(sf::IntRect((ttr_Preview.getSize().x) / 3 * (activeAnchor->colour % 3), (ttr_Preview.getSize().y) / 3 * ((activeAnchor->colour - (activeAnchor->colour % 3)) / 3), (ttr_Preview.getSize().x) / 3, (ttr_Preview.getSize().y) / 3));
+			spr_Ghost.setOrigin(sf::Vector2f((ttr_Preview.getSize().x) / 6.0, (ttr_Preview.getSize().y) / 6.0));
+			spr_Ghost.setPosition(sf::Vector2f((xMin + xMax) / 2.0 + 16.0, ((yMin + yMax) / 2.0) + (howMuch * 32.0) + 16.0));
+			spr_Ghost.setRotation(activeAnchor->rot * 90.0);
+			spr_Ghost.setColor(sf::Color(255, 255, 255, 85));
+
+			w.draw(spr_Ghost);
+		}
+
 		// rysuj aktywne Tetrimino
 		if (activeAnchor != NULL)
 		{
@@ -624,7 +939,9 @@ public:
 			for (int j = 0; j < 20; j++)
 			{
 				if (matrix[i][j] != NULL)
+				{
 					w.draw(*matrix[i][j]);
+				}
 			}
 		}
 		
@@ -633,15 +950,187 @@ public:
 
 // Definicja metod
 
+MinoAnchor::~MinoAnchor()
+{
+	if (readyToLock)
+	{
+		// utworzenie min w matrixie
+		matrix->matrix[posX][posY] = new Mino();
+		matrix->matrix[posX + children[0]->posX][posY + children[0]->posY] = new Mino();
+		matrix->matrix[posX + children[1]->posX][posY + children[1]->posY] = new Mino();
+		matrix->matrix[posX + children[2]->posX][posY + children[2]->posY] = new Mino();
+
+		// zastosowanie pozycji min na ekranie
+		matrix->matrix[posX][posY]->setPosition(getPosition());
+		matrix->matrix[posX + children[0]->posX][posY + children[0]->posY]->setPosition(children[0]->getPosition());
+		matrix->matrix[posX + children[1]->posX][posY + children[1]->posY]->setPosition(children[1]->getPosition());
+		matrix->matrix[posX + children[2]->posX][posY + children[2]->posY]->setPosition(children[2]->getPosition());
+
+		// ustawienie kolorów i duszków min
+		matrix->matrix[posX][posY]->colour = colour;
+		matrix->matrix[posX + children[0]->posX][posY + children[0]->posY]->colour = colour;
+		matrix->matrix[posX + children[1]->posX][posY + children[1]->posY]->colour = colour;
+		matrix->matrix[posX + children[2]->posX][posY + children[2]->posY]->colour = colour;
+
+		// usuniêcie min sterowalnych
+		
+	}
+	delete children[0];
+	delete children[1];
+	delete children[2];
+	matrix->activeAnchor = NULL;
+}
+
 void MinoAnchor::updateScreenXY()
 {
-	this->setPosition(sf::Vector2f(matrix->getPosition().x - (this->getTexture()->getSize().x) / 3.0 - 128.0 + (this->posX * 32.0), matrix->getPosition().y + 286.0 - (this->posY * 32.0)));
-	this->children[0]->setPosition(sf::Vector2f(this->getPosition().x + (this->children[0]->posX * ((this->children[0]->getTexture()->getSize().x) / 3.0)), this->getPosition().y - (this->children[0]->posY * ((this->children[0]->getTexture()->getSize().y) / 3.0))));
-	this->children[1]->setPosition(sf::Vector2f(this->getPosition().x + (this->children[1]->posX * ((this->children[1]->getTexture()->getSize().x) / 3.0)), this->getPosition().y - (this->children[1]->posY * ((this->children[1]->getTexture()->getSize().y) / 3.0))));
-	this->children[2]->setPosition(sf::Vector2f(this->getPosition().x + (this->children[2]->posX * ((this->children[2]->getTexture()->getSize().x) / 3.0)), this->getPosition().y - (this->children[2]->posY * ((this->children[2]->getTexture()->getSize().y) / 3.0))));
+	setPosition(sf::Vector2f(matrix->getPosition().x - (getTexture()->getSize().x) / 3.0 - 128.0 + (posX * 32.0), matrix->getPosition().y + 286.0 - (posY * 32.0)));
+	children[0]->setPosition(sf::Vector2f(getPosition().x + (children[0]->posX * ((children[0]->getTexture()->getSize().x) / 3.0)), getPosition().y - (children[0]->posY * ((children[0]->getTexture()->getSize().y) / 3.0))));
+	children[1]->setPosition(sf::Vector2f(getPosition().x + (children[1]->posX * ((children[1]->getTexture()->getSize().x) / 3.0)), getPosition().y - (children[1]->posY * ((children[1]->getTexture()->getSize().y) / 3.0))));
+	children[2]->setPosition(sf::Vector2f(getPosition().x + (children[2]->posX * ((children[2]->getTexture()->getSize().x) / 3.0)), getPosition().y - (children[2]->posY * ((children[2]->getTexture()->getSize().y) / 3.0))));
 }
 
 // Definicja funkcji
+
+void defineOffset(int t[3][4][5][2])
+{
+	// J L S T Z
+		// 0
+	t[0][0][0][0] = 0;
+	t[0][0][0][1] = 0;
+	t[0][0][1][0] = 0;
+	t[0][0][1][1] = 0;
+	t[0][0][2][0] = 0;
+	t[0][0][2][1] = 0;
+	t[0][0][3][0] = 0;
+	t[0][0][3][1] = 0;
+	t[0][0][4][0] = 0;
+	t[0][0][4][1] = 0;
+		// R
+	t[0][1][0][0] = 0;
+	t[0][1][0][1] = 0;
+	t[0][1][1][0] = 1;
+	t[0][1][1][1] = 0;
+	t[0][1][2][0] = 1;
+	t[0][1][2][1] = -1;
+	t[0][1][3][0] = 0;
+	t[0][1][3][1] = 2;
+	t[0][1][4][0] = 1;
+	t[0][1][4][1] = 2;
+		// 2
+	t[0][2][0][0] = 0;
+	t[0][2][0][1] = 0;
+	t[0][2][1][0] = 0;
+	t[0][2][1][1] = 0;
+	t[0][2][2][0] = 0;
+	t[0][2][2][1] = 0;
+	t[0][2][3][0] = 0;
+	t[0][2][3][1] = 0;
+	t[0][2][4][0] = 0;
+	t[0][2][4][1] = 0;
+		// L
+	t[0][3][0][0] = 0;
+	t[0][3][0][1] = 0;
+	t[0][3][1][0] = -1;
+	t[0][3][1][1] = 0;
+	t[0][3][2][0] = -1;
+	t[0][3][2][1] = -1;
+	t[0][3][3][0] = 0;
+	t[0][3][3][1] = 2;
+	t[0][3][4][0] = -1;
+	t[0][3][4][1] = 2;
+
+	// I
+		// 0
+	t[1][0][0][0] = 0;
+	t[1][0][0][1] = 0;
+	t[1][0][1][0] = -1;
+	t[1][0][1][1] = 0;
+	t[1][0][2][0] = 2;
+	t[1][0][2][1] = 0;
+	t[1][0][3][0] = -1;
+	t[1][0][3][1] = 0;
+	t[1][0][4][0] = 2;
+	t[1][0][4][1] = 0;
+		// R
+	t[1][1][0][0] = -1;
+	t[1][1][0][1] = 0;
+	t[1][1][1][0] = 0;
+	t[1][1][1][1] = 0;
+	t[1][1][2][0] = 0;
+	t[1][1][2][1] = 0;
+	t[1][1][3][0] = 0;
+	t[1][1][3][1] = 1;
+	t[1][1][4][0] = 0;
+	t[1][1][4][1] = -2;
+		// 2
+	t[1][2][0][0] = -1;
+	t[1][2][0][1] = 1;
+	t[1][2][1][0] = 1;
+	t[1][2][1][1] = 1;
+	t[1][2][2][0] = -2;
+	t[1][2][2][1] = 1;
+	t[1][2][3][0] = 1;
+	t[1][2][3][1] = 0;
+	t[1][2][4][0] = -2;
+	t[1][2][4][1] = 0;
+		// L
+	t[1][3][0][0] = 0;
+	t[1][3][0][1] = 1;
+	t[1][3][1][0] = 0;
+	t[1][3][1][1] = 1;
+	t[1][3][2][0] = 0;
+	t[1][3][2][1] = 1;
+	t[1][3][3][0] = 0;
+	t[1][3][3][1] = -1;
+	t[1][3][4][0] = 0;
+	t[1][3][4][1] = 2;
+
+	// O
+		// 0
+	t[2][0][0][0] = 0;
+	t[2][0][0][1] = 0;
+	t[2][0][1][0] = 0;
+	t[2][0][1][1] = 0;
+	t[2][0][2][0] = 0;
+	t[2][0][2][1] = 0;
+	t[2][0][3][0] = 0;
+	t[2][0][3][1] = 0;
+	t[2][0][4][0] = 0;
+	t[2][0][4][1] = 0;
+		// R
+	t[2][1][0][0] = 0;
+	t[2][1][0][1] = -1;
+	t[2][1][1][0] = 0;
+	t[2][1][1][1] = -1;
+	t[2][1][2][0] = 0;
+	t[2][1][2][1] = -1;
+	t[2][1][3][0] = 0;
+	t[2][1][3][1] = -1;
+	t[2][1][4][0] = 0;
+	t[2][1][4][1] = -1;
+		// 2
+	t[2][2][0][0] = -1;
+	t[2][2][0][1] = -1;
+	t[2][2][1][0] = -1;
+	t[2][2][1][1] = -1;
+	t[2][2][2][0] = -1;
+	t[2][2][2][1] = -1;
+	t[2][2][3][0] = -1;
+	t[2][2][3][1] = -1;
+	t[2][2][4][0] = -1;
+	t[2][2][4][1] = -1;
+		// L
+	t[2][3][0][0] = -1;
+	t[2][3][0][1] = 0;
+	t[2][3][1][0] = -1;
+	t[2][3][1][1] = 0;
+	t[2][3][2][0] = -1;
+	t[2][3][2][1] = 0;
+	t[2][3][3][0] = -1;
+	t[2][3][3][1] = 0;
+	t[2][3][4][0] = -1;
+	t[2][3][4][1] = 0;
+}
 
 void enqueue(struct pQueue* q, int d)	// przykladowe wywolanie funkcji: enqueue(pcQueue, 5);
 {
@@ -719,10 +1208,10 @@ void addBag(struct pQueue* q)
 
 int main()
 {
-	float frameHistory[1920];
-	float frameAvgH[1920];
-	float maxFps = 0;
-	float minFps = INT_MAX;
+	
+	queueFile.open("queueFile.txt");
+	
+	defineOffset(offsetChart);
 	
 	srand(time(NULL));
 
@@ -785,19 +1274,13 @@ int main()
 		// nyeh
 	}
 	ttr_Queue5.setSmooth(true);
-
-	sf::Texture ttr_Preview;
 	if (!ttr_Preview.loadFromFile("sprites/spr_preview.png"))
 	{
 		// nyeh
 	}
 	ttr_Preview.setSmooth(true);
-	
-	//
 
 	sf::View view(sf::Vector2f(FULLRES_W/2.0, FULLRES_H/2.0f), sf::Vector2f(FULLRES_W, FULLRES_H)); // center, size
-
-	//
 
 	pQueue pcQueue;
 	addBag(&pcQueue);
@@ -805,16 +1288,11 @@ int main()
 	Player* player[2];
 
 	player[0] = new Player(ttr_Matrix);
-	/*
-	player[0]->matrix->setTexture(ttr_Matrix);
-	player[0]->matrix->setOrigin(sf::Vector2f((player[0]->matrix->getTexture()->getSize().x) / 2.0, (player[0]->matrix->getTexture()->getSize().y) / 2.0));
-	//player[0]->matrix->setPosition(sf::Vector2f(FULLRES_W / 2.0, FULLRES_H / 2.0 + 2.0));
-	player[0]->matrix->setPosition(sf::Vector2f((FULLRES_W / (5.0 + (1.0 / 3.0))) + ((player[0]->matrix->getTexture()->getSize().x) / 2.0), FULLRES_H / 2.0 + 2.0));
-	*/
-	player[0]->hold[0].setTexture(ttr_HoldSolo);
-	player[0]->hold[0].setOrigin(sf::Vector2f((player[0]->hold[0].getTexture()->getSize().x) / 2.0, (player[0]->hold[0].getTexture()->getSize().y) / 2.0));
-	player[0]->hold[0].setPosition(sf::Vector2f(player[0]->getPosition().x - ((player[0]->getTexture()->getSize().x) / 2.0) - ((player[0]->hold[0].getTexture()->getSize().x) / 2.0), player[0]->getPosition().y));
-	
+
+	player[0]->holdBox[0].setTexture(ttr_HoldSolo);
+	player[0]->holdBox[0].setOrigin(sf::Vector2f((player[0]->holdBox[0].getTexture()->getSize().x) / 2.0, (player[0]->holdBox[0].getTexture()->getSize().y) / 2.0));
+	player[0]->holdBox[0].setPosition(sf::Vector2f(player[0]->getPosition().x - ((player[0]->getTexture()->getSize().x) / 2.0) - ((player[0]->holdBox[0].getTexture()->getSize().x) / 2.0), player[0]->getPosition().y));
+
 	player[0]->qBox.setTexture(ttr_Queue5);
 	player[0]->qBox.setOrigin(sf::Vector2f((player[0]->qBox.getTexture()->getSize().x) / 2.0, (player[0]->qBox.getTexture()->getSize().y) / 2.0));
 	player[0]->qBox.setPosition(sf::Vector2f(player[0]->getPosition().x + ((player[0]->getTexture()->getSize().x) / 2.0) + ((player[0]->qBox.getTexture()->getSize().x) / 2.0), player[0]->getPosition().y));
@@ -825,13 +1303,15 @@ int main()
 	player[1] = NULL;
 
 	player[0]->genPiece(&pcQueue, ttr_Mino);
+	if (player[0]->checkPos(0, -1))
+		player[0]->activeAnchor->posY -= 1;
 
 	// Pêtla gry
 
 	while (window.isOpen())
 	{
+
 		sf::Time elapsed1 = frameTimer.getElapsedTime();
-		//std::cout << elapsed1.asMicroseconds() << "\t";
 		if (elapsed1.asMicroseconds() != 0)
 			fpsCount = 1000000 / elapsed1.asMicroseconds();
 		else
@@ -841,8 +1321,50 @@ int main()
 		frameTimer.restart();
 
 		// Kontrola
+		//std::cout << player[0]->softDropTime << ", " << player[0]->lockdownReset << ", " << player[0]->spawnTime << "\t\t";
+		if (player[0]->activeAnchor == NULL)
+		{
+			if (player[0]->holdSwap)
+			{
+				player[0]->genPiece(&pcQueue, ttr_Mino);
+				if (player[0]->checkPos(0, -1))
+					player[0]->activeAnchor->posY -= 1;
+				player[0]->holdSwap = false;
+			}
+			else
+			{
+				if (player[0]->spawnTime == 0)
+				{
+					player[0]->checkVisuals(ttr_Mino);
+				}
 
-		player[0]->ctrlDo(elapsed1.asMilliseconds());
+				if (player[0]->spawnTime >= SPAWN_RESET)
+				{
+					player[0]->clearLines();
+					player[0]->checkVisuals(ttr_Mino);
+					
+					player[0]->spawnTime = -1;
+					player[0]->lockdownReset = 0;
+					player[0]->lockdownReset = -1;
+					player[0]->softDropTime = 0;
+					player[0]->genPiece(&pcQueue, ttr_Mino);
+					player[0]->ctrlState |= 0x20;
+					player[0]->holdActive = true;
+					if (player[0]->checkPos(0, -1))
+						player[0]->activeAnchor->posY -= 1;
+				}
+				else
+				{
+					player[0]->spawnTime += elapsed1.asMilliseconds();
+				}
+			}
+		}
+		else if (player[0]->activeAnchor != NULL)
+		{
+			player[0]->ctrlDo(elapsed1.asMilliseconds(), ttr_Mino);
+			if ((player[0]->lockdownReset > LOCK_RESET) && (player[0]->spawnTime == -1))
+				player[0]->lockIn(ttr_Mino);
+		}
 
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -860,13 +1382,12 @@ int main()
 		window.clear();
 
 		window.draw(*player[0]);
-		window.draw(player[0]->hold[0]);
+		window.draw(player[0]->holdBox[0]);
 		window.draw(player[0]->qBox);
-		player[0]->drawPreview(window, ttr_Preview);
+		player[0]->drawPreview(window);
 		player[0]->drawMatrix(window);
 
 		window.display();
-		
 	}
 
 	return 0;
