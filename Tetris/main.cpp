@@ -65,7 +65,7 @@ std::map <std::string, sf::Keyboard::Key> dftKey;
 
 bool fullScreen = false;
 
-double windowScale = 1.0;
+double windowScale = 1.0 / 2.0;
 int windowW = FULLRES_W * windowScale;
 int windowH = FULLRES_H * windowScale;
 
@@ -264,6 +264,8 @@ public:
 		setTexture(t);
 		setOrigin(sf::Vector2f((t.getSize().x) / 2.0, (t.getSize().y) / 2.0));
 		setPosition(sf::Vector2f((FULLRES_W / (5.0 + (1.0 / 3.0))) + ((t.getSize().x) / 2.0), FULLRES_H / 2.0 + 2.0));
+		posShift[0] = 0;
+		posShift[1] = 0;
 
 		level = 0;
 		hold = 7;
@@ -280,6 +282,7 @@ public:
 
 	int id;
 	int piecesUsed = 0;
+	int posShift[2];
 
 	Mino* matrix[10][40];
 
@@ -450,8 +453,11 @@ public:
 				{
 					activeAnchor->posY -= 1;
 				}
+				posShift[1] = 16;
 
 				lockdownReset = INT_MAX - LOCK_RESET;
+				
+				//activeAnchor->move(sf::Vector2f(posShift[0], posShift[1]));
 				activeAnchor->updateScreenXY();
 				return;
 			}
@@ -480,6 +486,8 @@ public:
 									lockdownTime = -1;
 								}
 							}
+							else
+								posShift[0] = 4;
 						}
 					}
 					else // lewy guzik dociœniêty do prawego
@@ -498,6 +506,8 @@ public:
 									lockdownTime = -1;
 								}
 							}
+							else
+								posShift[0] = -4;
 						}
 					}
 				}
@@ -514,6 +524,8 @@ public:
 							lockdownTime = -1;
 						}
 					}
+					else
+						posShift[0] = 4;
 				}
 				else if (ctrlState & RMV) // poprzednio praw (teraz +lewo)
 				{
@@ -528,6 +540,8 @@ public:
 							lockdownTime = -1;
 						}
 					}
+					else
+						posShift[0] = -4;
 				}
 				else // poprzednio ¿aden
 				{
@@ -559,6 +573,8 @@ public:
 							lockdownTime = -1;
 						}
 					}
+					else
+						posShift[0] = -4;
 				}
 
 				if (sideMoveTime >= DAS_DEFAULT)
@@ -574,6 +590,8 @@ public:
 							lockdownTime = -1;
 						}
 					}
+					else
+						posShift[0] = -4;
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(ctrlKey["RMV"])) // tylko prawo
@@ -594,6 +612,8 @@ public:
 					domDir = 1;
 					if (checkPos(1, 0))
 						activeAnchor->posX += 1;
+					else
+						posShift[0] = 4;
 				}
 
 				if (sideMoveTime >= DAS_DEFAULT)
@@ -601,6 +621,8 @@ public:
 					sideMoveTime -= ARR_DEFAULT;
 					if (checkPos(1, 0))
 						activeAnchor->posX += 1;
+					else
+						posShift[0] = 4;
 				}
 			}
 		}
@@ -668,6 +690,10 @@ public:
 			}
 			else
 			{
+				if (sf::Keyboard::isKeyPressed(ctrlKey["SDR"]))
+				{
+					posShift[1] = 4;
+				}
 				if (lockdownTime == -1)
 				{
 					lockdownTime = 0;
@@ -684,6 +710,10 @@ public:
 		}
 
 		activeAnchor->updateScreenXY();
+		activeAnchor->move(sf::Vector2f(posShift[0], posShift[1]));
+		activeAnchor->children[0]->move(sf::Vector2f(posShift[0], posShift[1]));
+		activeAnchor->children[1]->move(sf::Vector2f(posShift[0], posShift[1]));
+		activeAnchor->children[2]->move(sf::Vector2f(posShift[0], posShift[1]));
 
 		// Zapisz obecne wciœniêcia do porównania w nastêpnej klatce
 
@@ -749,6 +779,7 @@ public:
 	{
 		activeAnchor->readyToLock = true;
 		spawnTime = 0;
+		lockdownTime = -1;
 		delete activeAnchor;
 		checkVisuals(t);
 		checkLines();
@@ -844,6 +875,58 @@ public:
 		softDropUpdate = pow(0.8 - (level * 0.007), level) * 1000;
 	}
 
+	void shift(bool b, bool c)
+	{
+		if (b == true)
+		{
+			move(sf::Vector2f(posShift[0], posShift[1]));
+			holdBox[0].move(sf::Vector2f(posShift[0], posShift[1]));
+			qBox.move(sf::Vector2f(posShift[0], posShift[1]));
+			for (int i = 0; i < 21; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (matrix[j][i] != NULL)
+					{
+						matrix[j][i]->move(sf::Vector2f(posShift[0], posShift[1]));
+					}
+				}
+			}
+		}	
+		else
+		{
+			move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+			holdBox[0].move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+			qBox.move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+			for (int i = 0; i < 21; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (matrix[j][i] != NULL)
+					{
+						matrix[j][i]->move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+					}
+				}
+			}
+			
+			if (((!sf::Keyboard::isKeyPressed(ctrlKey["LMV"])) && (posShift[0] < 0)) || ((!sf::Keyboard::isKeyPressed(ctrlKey["RMV"])) && (posShift[0] > 0)))
+			{
+				if (abs(posShift[0]) > 1)
+					posShift[0] /= 2.0;
+				else
+					posShift[0] = 0;
+			}
+			if ((activeAnchor == NULL) || ((activeAnchor != NULL) && (!sf::Keyboard::isKeyPressed(ctrlKey["LSP"]))))
+			{
+				if (posShift[1] > 1)
+					posShift[1] /= 2.0;
+				else
+					posShift[1] = 0;
+			}
+		}
+		
+	}
+
 	void drawPreview(sf::RenderWindow &w)
 	{
 		sf::Sprite spr_Preview;
@@ -884,8 +967,9 @@ public:
 	}
 
 	void drawMatrix(sf::RenderWindow &w)
-	{
+	{	
 		// rysuj ducha
+		
 		if (activeAnchor != NULL)
 		{
 			sf::Sprite spr_Ghost;
@@ -930,6 +1014,11 @@ public:
 			w.draw(*activeAnchor->children[0]);
 			w.draw(*activeAnchor->children[1]);
 			w.draw(*activeAnchor->children[2]);
+			/*
+			activeAnchor->move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+			activeAnchor->children[0]->move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+			activeAnchor->children[1]->move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));
+			activeAnchor->children[2]->move(sf::Vector2f(0 - posShift[0], 0 - posShift[1]));*/
 		}
 
 		// rysuj zawartosc Matrixa
@@ -954,6 +1043,8 @@ MinoAnchor::~MinoAnchor()
 {
 	if (readyToLock)
 	{
+		//move(sf::Vector2f(0 - matrix->posShift[0], 0 - matrix->posShift[1]));
+
 		// utworzenie min w matrixie
 		matrix->matrix[posX][posY] = new Mino();
 		matrix->matrix[posX + children[0]->posX][posY + children[0]->posY] = new Mino();
@@ -1215,6 +1306,16 @@ int main()
 	
 	srand(time(NULL));
 
+	dftKey["LMV"] = sf::Keyboard::A;		// Left MoVement
+	dftKey["RMV"] = sf::Keyboard::D;	// Right MoVement
+	dftKey["LSP"] = sf::Keyboard::Numpad4;		// Left SPin
+	dftKey["RSP"] = sf::Keyboard::Numpad6;		// Right SPin
+	dftKey["SDR"] = sf::Keyboard::S;		// Soft DRop
+	dftKey["HDR"] = sf::Keyboard::Space;	// Hard DRop
+	dftKey["HLD"] = sf::Keyboard::Numpad5;		// HoLD
+	dftKey["PSE"] = sf::Keyboard::Escape;	// PauSE
+
+	/*
 	dftKey["LMV"] = sf::Keyboard::Left;		// Left MoVement
 	dftKey["RMV"] = sf::Keyboard::Right;	// Right MoVement
 	dftKey["LSP"] = sf::Keyboard::Z;		// Left SPin
@@ -1223,6 +1324,7 @@ int main()
 	dftKey["HDR"] = sf::Keyboard::Space;	// Hard DRop
 	dftKey["HLD"] = sf::Keyboard::C;		// HoLD
 	dftKey["PSE"] = sf::Keyboard::Escape;	// PauSE
+	*/
 
 	sf::Clock frameTimer;
 	int fpsCount;
@@ -1310,6 +1412,7 @@ int main()
 
 	while (window.isOpen())
 	{
+		
 
 		sf::Time elapsed1 = frameTimer.getElapsedTime();
 		if (elapsed1.asMicroseconds() != 0)
@@ -1363,8 +1466,14 @@ int main()
 		{
 			player[0]->ctrlDo(elapsed1.asMilliseconds(), ttr_Mino);
 			if ((player[0]->lockdownReset > LOCK_RESET) && (player[0]->spawnTime == -1))
+			{
+				//player[0]->shift(true, false);
 				player[0]->lockIn(ttr_Mino);
+				//player[0]->shift(false, false);
+			}
 		}
+
+		player[0]->shift(true, false);
 
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -1388,6 +1497,8 @@ int main()
 		player[0]->drawMatrix(window);
 
 		window.display();
+
+		player[0]->shift(false, true);
 	}
 
 	return 0;
