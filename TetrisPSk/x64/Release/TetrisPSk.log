@@ -1,0 +1,192 @@
+﻿  Źródło.cpp
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(69): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(70): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(265): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(266): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(688): warning C4244: "-=": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(713): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(714): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(715): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(716): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(882): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(883): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(884): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(891): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(898): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(899): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(900): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(907): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(915): warning C4244: "/=": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(922): warning C4244: "/=": konwersja z "double" do "int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(933): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(935): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(936): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(937): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(945): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(946): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(947): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(959): warning C4305: "argument": obcięcie z "double" do "T"
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(963): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(976): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(981): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(982): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(983): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(984): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(989): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(991): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(993): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(995): warning C4244: "=": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1001): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1002): error C2065: "ttr_Preview": niezadeklarowany identyfikator
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1003): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1004): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1077): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1078): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1079): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1080): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1307): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1399): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1400): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1403): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1404): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\admin.desktop-9r177ae\documents\github\tetrispsk\tetrispsk\źródło.cpp(1423): warning C4244: "=": konwersja z "sf::Int64" do "int", możliwa utrata danych
