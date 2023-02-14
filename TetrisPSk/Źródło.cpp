@@ -5,14 +5,6 @@ Wa¿ne komentarze:
 	TODO - do zrobienia
 */
 
-/*
-	TODO ogólne
-		lokowanie tetrimin (~MinoAnchor())
-		obracanie
-		schowek
-		pauza
-*/
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
@@ -32,10 +24,11 @@ Wa¿ne komentarze:
 
 // Deklaracja extern
 
+extern void defineOffset(int t[3][4][5][2]);
+
 extern int hiScore;
 extern std::fstream hiScoF;
-extern void defineOffset(int t[3][4][5][2]);
-extern int offsetChart[3][4][5][2]; // Tabela obrótów - [zestaw][kierunek][nr testu][x lub y]
+extern int offsetChart[3][4][5][2];
 extern std::map <std::string, sf::Keyboard::Key> dftKey;
 extern int windowW;
 extern int windowH;
@@ -50,28 +43,27 @@ extern int SPAWN_RESET;
 
 // Pêtla g³ówna
 
-
 /// Funkcja g³ówna main()
 ///
-///	Funkcja dzieli siê na dwie czêœci - inicjalizuj¹c¹ i g³ówn¹ pêtlê programu.
-/// W pierwszej czêœci najpierw wczytywany jest najlepszy wynik z pliku zapisu hiScore.sav, nastêpuje inicjalizacja randomizera, ustawienie tabeli podgl¹dowej obrotów Tetrimin i klawiszy sterowania.
-/// Inicjalizowane s¹ te¿ zegar, którego zadaniem bêdzie mierzenie czasu klatki, okno, tekstury, efekty dŸwiêkowe, muzyka, czcionka, widok, obiekt gracza i tablica do odtwarzania dŸwiêków.
-/// Za³adowywana jest kolejka Tetrimin.
-/// Po tych krokach, rozpoczyna siê pêtla programu. Na pocz¹tku odmierzany jest czas klatki, który pos³u¿y do obliczeñ zwi¹zanych z ruchem Tetrimin.
-/// W zale¿noœci od stanów active i gameOver z obiektu gracza wykonywany jest jeden z zestawów poleceñ:
-///		Je¿eli obiekt gracza jest nieaktywny, ale rozpoczête zosta³o odliczanie, jest ono kontynuowane.
-///		Je¿eli obiekt jest aktywny nastêpuje aktualizacja przebiegu gry.
-///			Lista poleceñ zaczyna siê od aktualizji grafik obiektów Applause. Do czasomierza gry dodawany jest ostatni czas klatki.
-///			Je¿eli nie istnieje sterowalne Tetrimino, sprawdzane s¹ po kolei parametry:
-///				Je¿eli w ostatniej klatce zosta³o dokonane schowkowanie Tetrimina, natychmiast tworzone jest nowe Tetrimino, bêd¹ce poprzednim schowkowanym Tetriminem lub (je¿eli takie nie istnieje) z kolejki.
-///				W przeciwnym wypadku, je¿eli czasomierz respawnu ma wystarczaj¹co du¿¹ wartoœæ, dokonywane jest czyszczenie linii i tworzone jest nowe Tetrimino z kolejki.
-///					W tym miejscu jest te¿ sprawdzany pierwszy warunek koñca gry - Block Out - zablokowanie pozycji spawnowania nowego Tetrimina przez istniej¹ce na Matrixie mino.
-///				W przeciwnym wypadku, doliczany jest czas klatki.
-///			Je¿eli sterowalne Tetrimino istnieje, najpierw nastêpuje aktualizacja kontroli Tetriminem przez funkcjê ctrlDo(). Nastêpnie sprawdzany jest czas lokowania Tetrimina.
-///				Je¿eli czas na zalokowanie Tetrmina up³yn¹³, przeprowadzany jest test na drugi warunek koñca gry - Lock Out - umieszczone Tetrimino znajduje siê ca³kowicie poza widoczn¹ czêœci¹ Matrixu.
-///					Ostatecznie Tetrimino zostaje zalokowane - to jest jego Mina sk³adowe zostaj¹ przeniesione do Matrixu.
-///	Kolejnym krokiem jest wykonanie poleceñ zwi¹zanych ze zdarzeniami SFML: je¿eli obiekt gracza jest niekatywny, a nie nast¹pi³ jeszcze konieæ gry, u¿ytkownik mo¿e wcisn¹æ ENter, by rozpocz¹æ grê.
-/// W ka¿dym momencie gracz mo¿e te¿ zamkn¹æ okno gry, klikaj¹c na krzy¿yk w rogu okna.
+///	Funkcja dzieli siê na dwie czêœci - inicjalizuj¹c¹ i g³ówn¹ pêtlê programu.<br>
+/// W pierwszej czêœci najpierw wczytywany jest najlepszy wynik z pliku zapisu hiScore.sav, nastêpuje inicjalizacja randomizera, ustawienie tabeli podgl¹dowej obrotów Tetrimin i klawiszy sterowania.<br>
+/// Inicjalizowane s¹ te¿ zegar, którego zadaniem bêdzie mierzenie czasu klatki, okno, tekstury, efekty dŸwiêkowe, muzyka, czcionka, widok, obiekt gracza i tablica do odtwarzania dŸwiêków.<br>
+/// Za³adowywana jest kolejka Tetrimin.<br>
+/// Po tych krokach, rozpoczyna siê pêtla programu. Na pocz¹tku odmierzany jest czas klatki, który pos³u¿y do obliczeñ zwi¹zanych z ruchem Tetrimin.<br>
+/// W zale¿noœci od stanów active i gameOver z obiektu gracza wykonywany jest jeden z zestawów poleceñ:<br>
+///	&emsp;Je¿eli obiekt gracza jest nieaktywny, ale rozpoczête zosta³o odliczanie, jest ono kontynuowane.<br>
+///	&emsp;Je¿eli obiekt jest aktywny nastêpuje aktualizacja przebiegu gry.<br>
+///	&emsp;&emsp;Lista poleceñ zaczyna siê od aktualizji grafik obiektów Applause. Do czasomierza gry dodawany jest ostatni czas klatki.<br>
+///	&emsp;&emsp;Je¿eli nie istnieje sterowalne Tetrimino, sprawdzane s¹ po kolei parametry:<br>
+///	&emsp;&emsp;&emsp;Je¿eli w ostatniej klatce zosta³o dokonane schowkowanie Tetrimina, natychmiast tworzone jest nowe Tetrimino, bêd¹ce poprzednim schowkowanym Tetriminem lub (je¿eli takie nie istnieje) z kolejki.<br>
+///	&emsp;&emsp;&emsp;W przeciwnym wypadku, je¿eli czasomierz respawnu ma wystarczaj¹co du¿¹ wartoœæ, dokonywane jest czyszczenie linii i tworzone jest nowe Tetrimino z kolejki.<br>
+///	&emsp;&emsp;&emsp;&emsp;W tym miejscu jest te¿ sprawdzany pierwszy warunek koñca gry - Block Out - zablokowanie pozycji spawnowania nowego Tetrimina przez istniej¹ce na Matrixie mino.<br>
+///	&emsp;&emsp;&emsp;W przeciwnym wypadku, doliczany jest czas klatki.<br>
+///	&emsp;&emsp;Je¿eli sterowalne Tetrimino istnieje, najpierw nastêpuje aktualizacja kontroli Tetriminem przez funkcjê ctrlDo(). Nastêpnie sprawdzany jest czas lokowania Tetrimina.<br>
+///	&emsp;&emsp;&emsp;Je¿eli czas na zalokowanie Tetrmina up³yn¹³, przeprowadzany jest test na drugi warunek koñca gry - Lock Out - umieszczone Tetrimino znajduje siê ca³kowicie poza widoczn¹ czêœci¹ Matrixu.<br>
+///	&emsp;&emsp;&emsp;&emsp;Ostatecznie Tetrimino zostaje zalokowane - to jest jego Mina sk³adowe zostaj¹ przeniesione do Matrixu.<br>
+///	Kolejnym krokiem jest wykonanie poleceñ zwi¹zanych ze zdarzeniami SFML: je¿eli obiekt gracza jest niekatywny, a nie nast¹pi³ jeszcze konieæ gry, u¿ytkownik mo¿e wcisn¹æ Enter, by rozpocz¹æ grê.<br>
+/// W ka¿dym momencie gracz mo¿e te¿ zamkn¹æ okno gry, klikaj¹c na krzy¿yk w rogu okna.<br>
 /// Na koniec pêtli, rysowane s¹ elementy gry w widoku okna.
 int main()
 {
@@ -84,6 +76,8 @@ int main()
 
 	defineOffset(offsetChart);
 
+	int ctrlSet = 0;
+	bool ctrlSwitch = 0;
 	/*
 	// Osobiste sterowanie do testów
 	dftKey["LMV"] = sf::Keyboard::A;		// Left MoVement
@@ -334,11 +328,7 @@ int main()
 		player[0]->updateQueue(pcQueue);
 
 	player[1] = NULL;
-	/*
-	player[0]->genPiece(&pcQueue, ttr_Mino);
-	if (player[0]->checkPos(0, -1))
-		player[0]->activeAnchor->posY -= 1;
-	*/
+
 	// Pêtla gry
 
 	sf::Sound sounds[7];
@@ -370,7 +360,7 @@ int main()
 		{
 			player[0]->countdown += elapsed1.asMilliseconds();
 
-			if (player[0]->countdown + elapsed1.asMilliseconds() >= 2600)
+			if (player[0]->countdown + elapsed1.asMilliseconds() >= 2700)
 			{
 				player[0]->active = true;
 				mus_main.play();
@@ -572,7 +562,11 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+			{
+				hiScoF << hiScore;
+				hiScoF.close();
 				window.close();
+			}
 
 			if (event.type == sf::Event::KeyPressed)
 			{
@@ -586,10 +580,53 @@ int main()
 					}
 				}
 
+				if (event.key.code == sf::Keyboard::P)
+				{
+					if ((event.key.control == 1) && (event.key.shift == 1))
+					{
+						if (!ctrlSwitch)
+						{
+							
+							if (ctrlSet == 0)
+							{
+								ctrlSet = 1;
+								player[0]->ctrlKey["LMV"] = sf::Keyboard::A;		// Left MoVement
+								player[0]->ctrlKey["RMV"] = sf::Keyboard::D;		// Right MoVement
+								player[0]->ctrlKey["LSP"] = sf::Keyboard::Numpad4;	// Left SPin
+								player[0]->ctrlKey["RSP"] = sf::Keyboard::Numpad6;	// Right SPin
+								player[0]->ctrlKey["SDR"] = sf::Keyboard::S;		// Soft DRop
+								player[0]->ctrlKey["HDR"] = sf::Keyboard::Space;	// Hard DRop
+								player[0]->ctrlKey["HLD"] = sf::Keyboard::Numpad5;	// HoLD
+								player[0]->ctrlKey["PSE"] = sf::Keyboard::Escape;	// PauSE
+							}
+							else
+							{
+								ctrlSet = 0;
+								player[0]->ctrlKey["LMV"] = sf::Keyboard::Left;		// Left MoVement
+								player[0]->ctrlKey["RMV"] = sf::Keyboard::Right;	// Right MoVement
+								player[0]->ctrlKey["LSP"] = sf::Keyboard::Z;		// Left SPin
+								player[0]->ctrlKey["RSP"] = sf::Keyboard::X;		// Right SPin
+								player[0]->ctrlKey["SDR"] = sf::Keyboard::Down;		// Soft DRop
+								player[0]->ctrlKey["HDR"] = sf::Keyboard::Space;	// Hard DRop
+								player[0]->ctrlKey["HLD"] = sf::Keyboard::C;		// HoLD
+								player[0]->ctrlKey["PSE"] = sf::Keyboard::Escape;	// PauSE
+							}
+							ctrlSwitch = true;
+						}
+					}
+				}
+
 				//if (event.key.code == sf::Keyboard::Q)
 				//{
 				//	window.close();
 				//}
+			}
+			if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::P)
+				{
+					ctrlSwitch = false;
+				}
 			}
 		}
 

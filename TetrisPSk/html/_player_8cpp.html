@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetris PŚk: Dokumentacja pliku Player.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Tetris PŚk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#var-members">Zmienne</a>  </div>
+  <div class="headertitle"><div class="title">Dokumentacja pliku Player.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="_player_8h_source.html">Player.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="enums_8h_source.html">enums.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="p_queue_8h_source.html">pQueue.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_queue_8h_source.html">Queue.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_mino_anchor_8h_source.html">MinoAnchor.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_applause_8h_source.html">Applause.h</a>&quot;</code><br />
+<code>#include &lt;SFML/Graphics.hpp&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Zmienne</h2></td></tr>
+<tr class="memitem:a18d599bca22cf6840e73bc54b6565143"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#a18d599bca22cf6840e73bc54b6565143">hiScore</a></td></tr>
+<tr class="memdesc:a18d599bca22cf6840e73bc54b6565143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Najlepszy osiągnięty wynik.  <br /></td></tr>
+<tr class="separator:a18d599bca22cf6840e73bc54b6565143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0a1eabe09dd60f99916851299e1f34"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#aae0a1eabe09dd60f99916851299e1f34">offsetChart</a> [3][4][5][2]</td></tr>
+<tr class="memdesc:aae0a1eabe09dd60f99916851299e1f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tabela obrótów - [zestaw][kierunek][nr testu][x lub y].  <br /></td></tr>
+<tr class="separator:aae0a1eabe09dd60f99916851299e1f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a041a2dd7d69d30d9593d9dd5d8019aaf"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, sf::Keyboard::Key &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#a041a2dd7d69d30d9593d9dd5d8019aaf">dftKey</a></td></tr>
+<tr class="memdesc:a041a2dd7d69d30d9593d9dd5d8019aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapa domyślnych klawiszy sterowania.  <br /></td></tr>
+<tr class="separator:a041a2dd7d69d30d9593d9dd5d8019aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd26f723db14fccff3af203cb886abca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#afd26f723db14fccff3af203cb886abca">FULLRES_W</a></td></tr>
+<tr class="memdesc:afd26f723db14fccff3af203cb886abca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Szerokość widoku w px.  <br /></td></tr>
+<tr class="separator:afd26f723db14fccff3af203cb886abca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6cd81fe4cf179b8e18057cca11e4474"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#ac6cd81fe4cf179b8e18057cca11e4474">FULLRES_H</a></td></tr>
+<tr class="memdesc:ac6cd81fe4cf179b8e18057cca11e4474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wysokość widoku w px.  <br /></td></tr>
+<tr class="separator:ac6cd81fe4cf179b8e18057cca11e4474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addd8c2ece6581eefb0617144089fb29b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#addd8c2ece6581eefb0617144089fb29b">DAS_DEFAULT</a></td></tr>
+<tr class="memdesc:addd8c2ece6581eefb0617144089fb29b"><td class="mdescLeft">&#160;</td><td class="mdescRight">DAS - Delayed Auto Shift - ilość czasu w ms, przez jaką trzeba trzymać przucisk, żeby tetrimino zaczęło się poruszać ze stałą prędkością.  <br /></td></tr>
+<tr class="separator:addd8c2ece6581eefb0617144089fb29b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a71d30280920d13c1c11e28bc13961c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#a2a71d30280920d13c1c11e28bc13961c">ARR_DEFAULT</a></td></tr>
+<tr class="memdesc:a2a71d30280920d13c1c11e28bc13961c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARR - Auto Repeat Rate - ilość czasu w ms pomiędzy kolejnymi krokami tetrimina w bok.  <br /></td></tr>
+<tr class="separator:a2a71d30280920d13c1c11e28bc13961c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b86a9c654a06a7821929cfed290b9ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#a8b86a9c654a06a7821929cfed290b9ca">SDF_DEFAULT</a></td></tr>
+<tr class="memdesc:a8b86a9c654a06a7821929cfed290b9ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDF - Soft Drop Factor - mnożnik standardowej prędkości opadania Tetrimina przy Foft Dropie.  <br /></td></tr>
+<tr class="separator:a8b86a9c654a06a7821929cfed290b9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad64f92c00d5b61646f5c598b7c9f5dae"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#ad64f92c00d5b61646f5c598b7c9f5dae">LOCK_TIME</a></td></tr>
+<tr class="memdesc:ad64f92c00d5b61646f5c598b7c9f5dae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Czas w ms, jaki tetrimino musi spędzić po nieudanej próbie opuszczenia w dół, by zostać zablokowane w miejscu.  <br /></td></tr>
+<tr class="separator:ad64f92c00d5b61646f5c598b7c9f5dae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69a35a3c87ba683c9c539e347b3e6a25"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_player_8cpp.html#a69a35a3c87ba683c9c539e347b3e6a25">LOCK_RESET</a></td></tr>
+<tr class="memdesc:a69a35a3c87ba683c9c539e347b3e6a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maksymalna ilość resetów czasomierza lokowania, zapobiegająca nieskończonemu unikaniu zalokowania.  <br /></td></tr>
+<tr class="separator:a69a35a3c87ba683c9c539e347b3e6a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Dokumentacja zmiennych</h2>
+<a id="a2a71d30280920d13c1c11e28bc13961c" name="a2a71d30280920d13c1c11e28bc13961c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a71d30280920d13c1c11e28bc13961c">&#9670;&#160;</a></span>ARR_DEFAULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ARR_DEFAULT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ARR - Auto Repeat Rate - ilość czasu w ms pomiędzy kolejnymi krokami tetrimina w bok. </p>
+
+</div>
+</div>
+<a id="addd8c2ece6581eefb0617144089fb29b" name="addd8c2ece6581eefb0617144089fb29b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addd8c2ece6581eefb0617144089fb29b">&#9670;&#160;</a></span>DAS_DEFAULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int DAS_DEFAULT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>DAS - Delayed Auto Shift - ilość czasu w ms, przez jaką trzeba trzymać przucisk, żeby tetrimino zaczęło się poruszać ze stałą prędkością. </p>
+
+</div>
+</div>
+<a id="a041a2dd7d69d30d9593d9dd5d8019aaf" name="a041a2dd7d69d30d9593d9dd5d8019aaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a041a2dd7d69d30d9593d9dd5d8019aaf">&#9670;&#160;</a></span>dftKey</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, sf::Keyboard::Key&gt; dftKey</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mapa domyślnych klawiszy sterowania. </p>
+
+</div>
+</div>
+<a id="ac6cd81fe4cf179b8e18057cca11e4474" name="ac6cd81fe4cf179b8e18057cca11e4474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6cd81fe4cf179b8e18057cca11e4474">&#9670;&#160;</a></span>FULLRES_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int FULLRES_H</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wysokość widoku w px. </p>
+
+</div>
+</div>
+<a id="afd26f723db14fccff3af203cb886abca" name="afd26f723db14fccff3af203cb886abca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd26f723db14fccff3af203cb886abca">&#9670;&#160;</a></span>FULLRES_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int FULLRES_W</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Szerokość widoku w px. </p>
+
+</div>
+</div>
+<a id="a18d599bca22cf6840e73bc54b6565143" name="a18d599bca22cf6840e73bc54b6565143"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18d599bca22cf6840e73bc54b6565143">&#9670;&#160;</a></span>hiScore</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hiScore</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Najlepszy osiągnięty wynik. </p>
+
+</div>
+</div>
+<a id="a69a35a3c87ba683c9c539e347b3e6a25" name="a69a35a3c87ba683c9c539e347b3e6a25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69a35a3c87ba683c9c539e347b3e6a25">&#9670;&#160;</a></span>LOCK_RESET</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int LOCK_RESET</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Maksymalna ilość resetów czasomierza lokowania, zapobiegająca nieskończonemu unikaniu zalokowania. </p>
+
+</div>
+</div>
+<a id="ad64f92c00d5b61646f5c598b7c9f5dae" name="ad64f92c00d5b61646f5c598b7c9f5dae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad64f92c00d5b61646f5c598b7c9f5dae">&#9670;&#160;</a></span>LOCK_TIME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int LOCK_TIME</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Czas w ms, jaki tetrimino musi spędzić po nieudanej próbie opuszczenia w dół, by zostać zablokowane w miejscu. </p>
+
+</div>
+</div>
+<a id="aae0a1eabe09dd60f99916851299e1f34" name="aae0a1eabe09dd60f99916851299e1f34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0a1eabe09dd60f99916851299e1f34">&#9670;&#160;</a></span>offsetChart</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int offsetChart[3][4][5][2]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tabela obrótów - [zestaw][kierunek][nr testu][x lub y]. </p>
+
+</div>
+</div>
+<a id="a8b86a9c654a06a7821929cfed290b9ca" name="a8b86a9c654a06a7821929cfed290b9ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b86a9c654a06a7821929cfed290b9ca">&#9670;&#160;</a></span>SDF_DEFAULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SDF_DEFAULT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>SDF - Soft Drop Factor - mnożnik standardowej prędkości opadania Tetrimina przy Foft Dropie. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+</small></address>
+</body>
+</html>

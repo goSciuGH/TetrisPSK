@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetris PŚk: Plik źródłowy pQueue.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Tetris PŚk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">pQueue.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="p_queue_8h.html">Idź do dokumentacji tego pliku.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">class </span><a class="code hl_class" href="class_queue.html">Queue</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classp_queue.html">    6</a></span><span class="keyword">class </span><a class="code hl_class" href="classp_queue.html">pQueue</a></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <a class="code hl_function" href="classp_queue.html#a542929875ec62f9f51f5ac7ec8c65327">pQueue</a>();</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classp_queue.html#aaccd87294f2b873efd15b960961eecfa">   12</a></span>    <a class="code hl_class" href="class_queue.html">Queue</a>* <a class="code hl_variable" href="classp_queue.html#aaccd87294f2b873efd15b960961eecfa">head</a>;    </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classp_queue.html#a96376dc54181ec5e48f5476ff6d56f36">   13</a></span>    <a class="code hl_class" href="class_queue.html">Queue</a>* <a class="code hl_variable" href="classp_queue.html#a96376dc54181ec5e48f5476ff6d56f36">tail</a>;    </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classp_queue.html#a29e82e96b385966dc6b2e21c1bee0c12">enqueue</a>(<span class="keywordtype">int</span> d);    <span class="comment">// przykładowe wywołanie funkcji: enqueue(pcQueue, 5) - dodaje Tetrimino I na koniec kolejki;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classp_queue.html#a81a159ee7af59786d055e4b9c5b4c367">dequeue</a>();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classp_queue.html#ab585ca155bb3c7782f04f216298800c1">addBag</a>();</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="ttc" id="aclass_queue_html"><div class="ttname"><a href="class_queue.html">Queue</a></div><div class="ttdoc">Klasa będąca elementem kolejki wskazywanej przez obiekt klasy pQueue.</div><div class="ttdef"><b>Definition:</b> Queue.h:5</div></div>
+<div class="ttc" id="aclassp_queue_html"><div class="ttname"><a href="classp_queue.html">pQueue</a></div><div class="ttdoc">Zadaniem klasy jest być odnośnikiem do elementów kolejki Tetrimin.</div><div class="ttdef"><b>Definition:</b> pQueue.h:7</div></div>
+<div class="ttc" id="aclassp_queue_html_a29e82e96b385966dc6b2e21c1bee0c12"><div class="ttname"><a href="classp_queue.html#a29e82e96b385966dc6b2e21c1bee0c12">pQueue::enqueue</a></div><div class="ttdeci">void enqueue(int d)</div><div class="ttdef"><b>Definition:</b> pQueue.cpp:13</div></div>
+<div class="ttc" id="aclassp_queue_html_a542929875ec62f9f51f5ac7ec8c65327"><div class="ttname"><a href="classp_queue.html#a542929875ec62f9f51f5ac7ec8c65327">pQueue::pQueue</a></div><div class="ttdeci">pQueue()</div><div class="ttdoc">Konstruktor klasy.  Ustawia wskaźniki na przód i tył kolejki jako NULL.</div><div class="ttdef"><b>Definition:</b> pQueue.cpp:7</div></div>
+<div class="ttc" id="aclassp_queue_html_a81a159ee7af59786d055e4b9c5b4c367"><div class="ttname"><a href="classp_queue.html#a81a159ee7af59786d055e4b9c5b4c367">pQueue::dequeue</a></div><div class="ttdeci">void dequeue()</div><div class="ttdoc">Usuwa z pamięci gry pierwszy element kolejki. Wskaźnik na przód kolejki jest zastąpiony wskaźnikiem n...</div><div class="ttdef"><b>Definition:</b> pQueue.cpp:41</div></div>
+<div class="ttc" id="aclassp_queue_html_a96376dc54181ec5e48f5476ff6d56f36"><div class="ttname"><a href="classp_queue.html#a96376dc54181ec5e48f5476ff6d56f36">pQueue::tail</a></div><div class="ttdeci">Queue * tail</div><div class="ttdoc">Wskaźnik na koniec kolejki.</div><div class="ttdef"><b>Definition:</b> pQueue.h:13</div></div>
+<div class="ttc" id="aclassp_queue_html_aaccd87294f2b873efd15b960961eecfa"><div class="ttname"><a href="classp_queue.html#aaccd87294f2b873efd15b960961eecfa">pQueue::head</a></div><div class="ttdeci">Queue * head</div><div class="ttdoc">Wskaźnik na przód kolejki.</div><div class="ttdef"><b>Definition:</b> pQueue.h:12</div></div>
+<div class="ttc" id="aclassp_queue_html_ab585ca155bb3c7782f04f216298800c1"><div class="ttname"><a href="classp_queue.html#ab585ca155bb3c7782f04f216298800c1">pQueue::addBag</a></div><div class="ttdeci">void addBag()</div><div class="ttdoc">Tworzy nową torbę Tetrimin, losowo ustawiając ich kolejność i dodaje je do kolejki przez metodę enque...</div><div class="ttdef"><b>Definition:</b> pQueue.cpp:56</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+</small></address>
+</body>
+</html>

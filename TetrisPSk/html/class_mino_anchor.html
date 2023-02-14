@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetris PŚk: Dokumentacja klasy MinoAnchor</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Tetris PŚk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Metody publiczne</a> &#124;
+<a href="#pub-attribs">Atrybuty publiczne</a> &#124;
+<a href="class_mino_anchor-members.html">Lista wszystkich składowych</a>  </div>
+  <div class="headertitle"><div class="title">Dokumentacja klasy MinoAnchor</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Reprezentuje Mino-Kotwicę - główne <a class="el" href="class_mino.html" title="Klasa reprezentująca pojedyncze Mino. Bazuje na klasie sf::Sprite, by móc przybierać teksturę i być w...">Mino</a> w sterowalnym Tetriminie. Służy za punkt obrotu i reprezentuje pozycję Tetrimina.  
+ <a href="class_mino_anchor.html#details">Więcej...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_mino_anchor_8h_source.html">MinoAnchor.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Metody publiczne</h2></td></tr>
+<tr class="memitem:a81df8e08ac9afd7f4c18e93d39140162"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#a81df8e08ac9afd7f4c18e93d39140162">MinoAnchor</a> (<a class="el" href="class_player.html">Player</a> *p, int c, sf::Texture &amp;t)</td></tr>
+<tr class="separator:a81df8e08ac9afd7f4c18e93d39140162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c32ada3f91e28c1d9099d31842f4766"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#a0c32ada3f91e28c1d9099d31842f4766">~MinoAnchor</a> ()</td></tr>
+<tr class="separator:a0c32ada3f91e28c1d9099d31842f4766"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54c22706d2aca57a16bf7e4b78dd336a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#a54c22706d2aca57a16bf7e4b78dd336a">updateScreenXY</a> ()</td></tr>
+<tr class="memdesc:a54c22706d2aca57a16bf7e4b78dd336a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ustawia pozycję swoją i Min potomnych na ekranie.  <br /></td></tr>
+<tr class="separator:a54c22706d2aca57a16bf7e4b78dd336a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_mino"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_mino')"><img src="closed.png" alt="-"/>&#160;Metody publiczne dziedziczone z <a class="el" href="class_mino.html">Mino</a></td></tr>
+<tr class="memitem:adc00861ce5a0345cbccfebc6c36b3e74 inherit pub_methods_class_mino"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino.html#adc00861ce5a0345cbccfebc6c36b3e74">Mino</a> ()</td></tr>
+<tr class="memdesc:adc00861ce5a0345cbccfebc6c36b3e74 inherit pub_methods_class_mino"><td class="mdescLeft">&#160;</td><td class="mdescRight">Konstruktor klasy.<br  />
+ Jedyna przypisywana wartość w konstruktorze to false w readyToShow - <a class="el" href="class_mino.html" title="Klasa reprezentująca pojedyncze Mino. Bazuje na klasie sf::Sprite, by móc przybierać teksturę i być w...">Mino</a> jeszcze nie było lokowane, więc nie może być gotowe do pokazania jako część Matrixa.  <br /></td></tr>
+<tr class="separator:adc00861ce5a0345cbccfebc6c36b3e74 inherit pub_methods_class_mino"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac44973ba440ba347e12baeb720da46 inherit pub_methods_class_mino"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino.html#a7ac44973ba440ba347e12baeb720da46">rotate</a> (bool cw)</td></tr>
+<tr class="separator:a7ac44973ba440ba347e12baeb720da46 inherit pub_methods_class_mino"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Atrybuty publiczne</h2></td></tr>
+<tr class="memitem:a91dc9c5548d11bd569e6b4d4dba79b8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_player.html">Player</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#a91dc9c5548d11bd569e6b4d4dba79b8f">matrix</a></td></tr>
+<tr class="memdesc:a91dc9c5548d11bd569e6b4d4dba79b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wskaźnik na obiekt gracza.  <br /></td></tr>
+<tr class="separator:a91dc9c5548d11bd569e6b4d4dba79b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37da0db06b8f6338e5b5f109428cc3e8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#a37da0db06b8f6338e5b5f109428cc3e8">shape</a></td></tr>
+<tr class="memdesc:a37da0db06b8f6338e5b5f109428cc3e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numer reprezentujący kolor/kształt Tetrimina.  <br /></td></tr>
+<tr class="separator:a37da0db06b8f6338e5b5f109428cc3e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff5608a39f27d90a5d7bb83334bdeded"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#aff5608a39f27d90a5d7bb83334bdeded">rot</a></td></tr>
+<tr class="memdesc:aff5608a39f27d90a5d7bb83334bdeded"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numer rerezentujący kierunek Tetrimina: 0 - pozycja startowa; 1 - obrót w prawo; 2 - dwa obroty; 3 - obrót w lewo.  <br /></td></tr>
+<tr class="separator:aff5608a39f27d90a5d7bb83334bdeded"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd1b2377635580027afc0044a01d04c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mino.html">Mino</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#a6dd1b2377635580027afc0044a01d04c">children</a> [3]</td></tr>
+<tr class="memdesc:a6dd1b2377635580027afc0044a01d04c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wskaźnik na Mina potomne Tetrimina.  <br /></td></tr>
+<tr class="separator:a6dd1b2377635580027afc0044a01d04c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6415e0995e63ce8bdb43eff6974fc5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino_anchor.html#ad6415e0995e63ce8bdb43eff6974fc5d">readyToLock</a></td></tr>
+<tr class="memdesc:ad6415e0995e63ce8bdb43eff6974fc5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gotowość do zalokowania.  <br /></td></tr>
+<tr class="separator:ad6415e0995e63ce8bdb43eff6974fc5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_class_mino"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_mino')"><img src="closed.png" alt="-"/>&#160;Atrybuty publiczne dziedziczone z <a class="el" href="class_mino.html">Mino</a></td></tr>
+<tr class="memitem:afd45e94b226a91ce21a6dccf67e9c4e2 inherit pub_attribs_class_mino"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino.html#afd45e94b226a91ce21a6dccf67e9c4e2">colour</a></td></tr>
+<tr class="memdesc:afd45e94b226a91ce21a6dccf67e9c4e2 inherit pub_attribs_class_mino"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numer wyznaczający kolor/kształ Tetrimina.  <br /></td></tr>
+<tr class="separator:afd45e94b226a91ce21a6dccf67e9c4e2 inherit pub_attribs_class_mino"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdb866a0bf0b9db2e9dc9415644b1f18 inherit pub_attribs_class_mino"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino.html#afdb866a0bf0b9db2e9dc9415644b1f18">posX</a></td></tr>
+<tr class="memdesc:afdb866a0bf0b9db2e9dc9415644b1f18 inherit pub_attribs_class_mino"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pozycja Mina w osi X. Będąc w sterowalnym Tetriminie, odnosi się do Mina-Kotwicy, w innym wypadku, odnosi się do Matrixa.  <br /></td></tr>
+<tr class="separator:afdb866a0bf0b9db2e9dc9415644b1f18 inherit pub_attribs_class_mino"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a73e1502915a22c5c3e40dae46095c5 inherit pub_attribs_class_mino"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino.html#a9a73e1502915a22c5c3e40dae46095c5">posY</a></td></tr>
+<tr class="memdesc:a9a73e1502915a22c5c3e40dae46095c5 inherit pub_attribs_class_mino"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pozycja Mina w osi Y. Będąc w sterowalnym Tetriminie, odnosi się do Mina-Kotwicy, w innym wypadku, odnosi się do Matrixa.  <br /></td></tr>
+<tr class="separator:a9a73e1502915a22c5c3e40dae46095c5 inherit pub_attribs_class_mino"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a995f2aee9e3c8c39b051cfe7935c7dba inherit pub_attribs_class_mino"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mino.html#a995f2aee9e3c8c39b051cfe7935c7dba">readyToShow</a></td></tr>
+<tr class="memdesc:a995f2aee9e3c8c39b051cfe7935c7dba inherit pub_attribs_class_mino"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gotowość Mina do pokazania jako część Matrixa.  <br /></td></tr>
+<tr class="separator:a995f2aee9e3c8c39b051cfe7935c7dba inherit pub_attribs_class_mino"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Opis szczegółowy</h2>
+<div class="textblock"><p>Reprezentuje Mino-Kotwicę - główne <a class="el" href="class_mino.html" title="Klasa reprezentująca pojedyncze Mino. Bazuje na klasie sf::Sprite, by móc przybierać teksturę i być w...">Mino</a> w sterowalnym Tetriminie. Służy za punkt obrotu i reprezentuje pozycję Tetrimina. </p>
+</div><h2 class="groupheader">Dokumentacja konstruktora i destruktora</h2>
+<a id="a81df8e08ac9afd7f4c18e93d39140162" name="a81df8e08ac9afd7f4c18e93d39140162"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81df8e08ac9afd7f4c18e93d39140162">&#9670;&#160;</a></span>MinoAnchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MinoAnchor::MinoAnchor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_player.html">Player</a> *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sf::Texture &amp;&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Konstruktor klasy.<br  />
+ Ustawia początkowe wartości Tetrimina, takie jak pozycja, obrót czy kształt. Tworzy potomne Mina i przekazuje im ich przesunięcie.<br  />
+ Ustawia odpowiadającą teksturę sobie i potomnym Minom.<br  />
+ Ustawia swoją pozycję na ekranie. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Wskaźnik na obiekt gracza. </td></tr>
+    <tr><td class="paramname">c</td><td>Numer odpowiadający kształtowi Tetrimina. </td></tr>
+    <tr><td class="paramname">t</td><td>Referencja na teksturę Tetrimina. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0c32ada3f91e28c1d9099d31842f4766" name="a0c32ada3f91e28c1d9099d31842f4766"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c32ada3f91e28c1d9099d31842f4766">&#9670;&#160;</a></span>~MinoAnchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MinoAnchor::~MinoAnchor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Destruktor klasy.<br  />
+ Jeżeli Tetrimino jest gotowe do zalokowania, kopiuje ich pozycję, kolor i teksturę do nowych Min w Matrixie, następnie usuwa potomne Mina.<br  />
+ Na koniec, wskaźnik na sterowalne Tetrimino w obiekcie gracza jest ustawiany na NULL. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja funkcji składowych</h2>
+<a id="a54c22706d2aca57a16bf7e4b78dd336a" name="a54c22706d2aca57a16bf7e4b78dd336a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54c22706d2aca57a16bf7e4b78dd336a">&#9670;&#160;</a></span>updateScreenXY()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MinoAnchor::updateScreenXY </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ustawia pozycję swoją i Min potomnych na ekranie. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja atrybutów składowych</h2>
+<a id="a6dd1b2377635580027afc0044a01d04c" name="a6dd1b2377635580027afc0044a01d04c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd1b2377635580027afc0044a01d04c">&#9670;&#160;</a></span>children</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_mino.html">Mino</a>* MinoAnchor::children[3]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wskaźnik na Mina potomne Tetrimina. </p>
+
+</div>
+</div>
+<a id="a91dc9c5548d11bd569e6b4d4dba79b8f" name="a91dc9c5548d11bd569e6b4d4dba79b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91dc9c5548d11bd569e6b4d4dba79b8f">&#9670;&#160;</a></span>matrix</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_player.html">Player</a>* MinoAnchor::matrix</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wskaźnik na obiekt gracza. </p>
+
+</div>
+</div>
+<a id="ad6415e0995e63ce8bdb43eff6974fc5d" name="ad6415e0995e63ce8bdb43eff6974fc5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6415e0995e63ce8bdb43eff6974fc5d">&#9670;&#160;</a></span>readyToLock</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MinoAnchor::readyToLock</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gotowość do zalokowania. </p>
+
+</div>
+</div>
+<a id="aff5608a39f27d90a5d7bb83334bdeded" name="aff5608a39f27d90a5d7bb83334bdeded"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff5608a39f27d90a5d7bb83334bdeded">&#9670;&#160;</a></span>rot</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MinoAnchor::rot</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Numer rerezentujący kierunek Tetrimina: 0 - pozycja startowa; 1 - obrót w prawo; 2 - dwa obroty; 3 - obrót w lewo. </p>
+
+</div>
+</div>
+<a id="a37da0db06b8f6338e5b5f109428cc3e8" name="a37da0db06b8f6338e5b5f109428cc3e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37da0db06b8f6338e5b5f109428cc3e8">&#9670;&#160;</a></span>shape</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MinoAnchor::shape</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Numer reprezentujący kolor/kształt Tetrimina. </p>
+
+</div>
+</div>
+<hr/>Dokumentacja dla tej klasy została wygenerowana z plików:<ul>
+<li><a class="el" href="_mino_anchor_8h_source.html">MinoAnchor.h</a></li>
+<li><a class="el" href="_mino_anchor_8cpp.html">MinoAnchor.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+</small></address>
+</body>
+</html>

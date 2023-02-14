@@ -352,7 +352,6 @@ void Player::ctrlDo(int t, sf::Texture &ttr, sf::Sound s[], sf::SoundBuffer* sb[
 				}
 				else // lewy guzik dociœniêty do prawego
 				{
-
 					if (sideMoveTime >= DAS_DEFAULT)
 					{
 						sideMoveTime -= ARR_DEFAULT;
@@ -526,7 +525,7 @@ void Player::ctrlDo(int t, sf::Texture &ttr, sf::Sound s[], sf::SoundBuffer* sb[
 		ctrlState[1] = false;
 	}
 
-	if (sf::Keyboard::isKeyPressed(ctrlKey["LSP"]) && sf::Keyboard::isKeyPressed(ctrlKey["RSP"])) // oba przyciski obrotu wciœniête - FIXIT
+	if (sf::Keyboard::isKeyPressed(ctrlKey["LSP"]) && sf::Keyboard::isKeyPressed(ctrlKey["RSP"])) // oba przyciski obrotu wciœniête
 	{
 		if (ctrlState[2] && ctrlState[3]) // poprzednio oba
 		{

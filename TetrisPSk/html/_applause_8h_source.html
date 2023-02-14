@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetris PŚk: Plik źródłowy Applause.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Tetris PŚk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Applause.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_applause_8h.html">Idź do dokumentacji tego pliku.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SFML/Graphics.hpp&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">class </span><a class="code hl_class" href="class_player.html">Player</a>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_applause.html">    8</a></span><span class="keyword">class </span><a class="code hl_class" href="class_applause.html">Applause</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <a class="code hl_function" href="class_applause.html#a3ee23e93491e2146535a40eb49a12b91">Applause</a>();</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_applause.html#ac75bc3979feb27e6779f29bffabf37ac">   14</a></span>    sf::Text <a class="code hl_variable" href="class_applause.html#ac75bc3979feb27e6779f29bffabf37ac">txt</a>[11];           </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_applause.html#aa5cca5952da889b133b6083e426b7f36">   15</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="class_applause.html#aa5cca5952da889b133b6083e426b7f36">len</a>;                    </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="class_applause.html#a58d9505f90ee372c2d4d7fa788424f6d">   16</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="class_applause.html#a58d9505f90ee372c2d4d7fa788424f6d">aType</a>;                  </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="class_applause.html#a9d7ad9b40a0715cc5d6b5e7e061765d0">   17</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="class_applause.html#a9d7ad9b40a0715cc5d6b5e7e061765d0">lifeTime</a> = 0;           </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_applause.html#af4cb9b12fea57294cc42092a3278a7b8">   18</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="class_applause.html#af4cb9b12fea57294cc42092a3278a7b8">spd</a> = 16.0 / 3.0;    </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="class_applause.html#a17ffa1682896f3868ea06816d15824e5">   19</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="class_applause.html#a17ffa1682896f3868ea06816d15824e5">acc</a> = 16.0 / 9.0;    </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="class_applause.html#a6578b9e74e1ee77566f88945f1915b44">   20</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="class_applause.html#a6578b9e74e1ee77566f88945f1915b44">spdV</a> = 340.0;        </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="class_applause.html#a179bbbbf8c65289e8f16609a30390c7a">   21</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="class_applause.html#a179bbbbf8c65289e8f16609a30390c7a">accV</a> = 680.0 / 3.0;  </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_applause.html#a9ab03110742644c115da409a16bcbcce">   22</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="class_applause.html#a9ab03110742644c115da409a16bcbcce">vis</a> = 255;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_applause.html#afbb3c2bfd78aeb3b2aec0a2cfc38532c">clear</a>();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_applause.html#a70b01460cf9ef8f51c27e4e9891d24b7">init</a>(<span class="keywordtype">int</span> type, sf::Font &amp;f, <a class="code hl_class" href="class_player.html">Player</a>* p);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_applause.html#a84136192dce3ee9e014a2977111a7f2c">updateVis</a>(<span class="keywordtype">int</span> t);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
+<div class="ttc" id="aclass_applause_html"><div class="ttname"><a href="class_applause.html">Applause</a></div><div class="ttdoc">Jest to graficzny obiekt, który ma gratulować graczowi dokonanych ruchów poprzez wyświetlanie ich naz...</div><div class="ttdef"><b>Definition:</b> Applause.h:9</div></div>
+<div class="ttc" id="aclass_applause_html_a179bbbbf8c65289e8f16609a30390c7a"><div class="ttname"><a href="class_applause.html#a179bbbbf8c65289e8f16609a30390c7a">Applause::accV</a></div><div class="ttdeci">double accV</div><div class="ttdoc">Opóźnienie zanikania (w b/s^2).</div><div class="ttdef"><b>Definition:</b> Applause.h:21</div></div>
+<div class="ttc" id="aclass_applause_html_a17ffa1682896f3868ea06816d15824e5"><div class="ttname"><a href="class_applause.html#a17ffa1682896f3868ea06816d15824e5">Applause::acc</a></div><div class="ttdeci">double acc</div><div class="ttdoc">Opóźnienie dla drugiego znaku od matrixa (w px/s^2).</div><div class="ttdef"><b>Definition:</b> Applause.h:19</div></div>
+<div class="ttc" id="aclass_applause_html_a3ee23e93491e2146535a40eb49a12b91"><div class="ttname"><a href="class_applause.html#a3ee23e93491e2146535a40eb49a12b91">Applause::Applause</a></div><div class="ttdeci">Applause()</div><div class="ttdoc">Konstruktor klasy. Ustawia parametry aplauzu na początkowe, ustawia pusty tekst.</div><div class="ttdef"><b>Definition:</b> Applause.cpp:5</div></div>
+<div class="ttc" id="aclass_applause_html_a58d9505f90ee372c2d4d7fa788424f6d"><div class="ttname"><a href="class_applause.html#a58d9505f90ee372c2d4d7fa788424f6d">Applause::aType</a></div><div class="ttdeci">int aType</div><div class="ttdoc">Typ wyświetlanego aplauzu.</div><div class="ttdef"><b>Definition:</b> Applause.h:16</div></div>
+<div class="ttc" id="aclass_applause_html_a6578b9e74e1ee77566f88945f1915b44"><div class="ttname"><a href="class_applause.html#a6578b9e74e1ee77566f88945f1915b44">Applause::spdV</a></div><div class="ttdeci">double spdV</div><div class="ttdoc">Prędkość początkowa zanikania (w b/s).</div><div class="ttdef"><b>Definition:</b> Applause.h:20</div></div>
+<div class="ttc" id="aclass_applause_html_a70b01460cf9ef8f51c27e4e9891d24b7"><div class="ttname"><a href="class_applause.html#a70b01460cf9ef8f51c27e4e9891d24b7">Applause::init</a></div><div class="ttdeci">void init(int type, sf::Font &amp;f, Player *p)</div><div class="ttdef"><b>Definition:</b> Applause.cpp:37</div></div>
+<div class="ttc" id="aclass_applause_html_a84136192dce3ee9e014a2977111a7f2c"><div class="ttname"><a href="class_applause.html#a84136192dce3ee9e014a2977111a7f2c">Applause::updateVis</a></div><div class="ttdeci">void updateVis(int t)</div><div class="ttdef"><b>Definition:</b> Applause.cpp:184</div></div>
+<div class="ttc" id="aclass_applause_html_a9ab03110742644c115da409a16bcbcce"><div class="ttname"><a href="class_applause.html#a9ab03110742644c115da409a16bcbcce">Applause::vis</a></div><div class="ttdeci">double vis</div><div class="ttdef"><b>Definition:</b> Applause.h:22</div></div>
+<div class="ttc" id="aclass_applause_html_a9d7ad9b40a0715cc5d6b5e7e061765d0"><div class="ttname"><a href="class_applause.html#a9d7ad9b40a0715cc5d6b5e7e061765d0">Applause::lifeTime</a></div><div class="ttdeci">int lifeTime</div><div class="ttdoc">Czasomierz trwania aplauzu.</div><div class="ttdef"><b>Definition:</b> Applause.h:17</div></div>
+<div class="ttc" id="aclass_applause_html_aa5cca5952da889b133b6083e426b7f36"><div class="ttname"><a href="class_applause.html#aa5cca5952da889b133b6083e426b7f36">Applause::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">Długość tekstu.</div><div class="ttdef"><b>Definition:</b> Applause.h:15</div></div>
+<div class="ttc" id="aclass_applause_html_ac75bc3979feb27e6779f29bffabf37ac"><div class="ttname"><a href="class_applause.html#ac75bc3979feb27e6779f29bffabf37ac">Applause::txt</a></div><div class="ttdeci">sf::Text txt[11]</div><div class="ttdoc">Tablica obiektów tesktowych do zwaarcia tekstu aplauzu.</div><div class="ttdef"><b>Definition:</b> Applause.h:14</div></div>
+<div class="ttc" id="aclass_applause_html_af4cb9b12fea57294cc42092a3278a7b8"><div class="ttname"><a href="class_applause.html#af4cb9b12fea57294cc42092a3278a7b8">Applause::spd</a></div><div class="ttdeci">double spd</div><div class="ttdoc">Prędkość początkowa ruchu dla drugiego znaku od matrixa (w px/s).</div><div class="ttdef"><b>Definition:</b> Applause.h:18</div></div>
+<div class="ttc" id="aclass_applause_html_afbb3c2bfd78aeb3b2aec0a2cfc38532c"><div class="ttname"><a href="class_applause.html#afbb3c2bfd78aeb3b2aec0a2cfc38532c">Applause::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Czyści aplauz, by przypominał świeżo utworzony obiekt.</div><div class="ttdef"><b>Definition:</b> Applause.cpp:21</div></div>
+<div class="ttc" id="aclass_player_html"><div class="ttname"><a href="class_player.html">Player</a></div><div class="ttdoc">Klasa reprezentująca gracza i należące do niego elementy gry.</div><div class="ttdef"><b>Definition:</b> Player.h:14</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+</small></address>
+</body>
+</html>
